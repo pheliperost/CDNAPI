@@ -30,6 +30,8 @@ namespace CDNAPI
             services.AddDbContext<ApiDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddHttpClient();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -38,6 +40,9 @@ namespace CDNAPI
         {
             if (env.IsDevelopment())
             {
+                //app.UseSwagger();
+                //app.UseSwaggerUI();
+
                 app.UseDeveloperExceptionPage();
             }
             else
