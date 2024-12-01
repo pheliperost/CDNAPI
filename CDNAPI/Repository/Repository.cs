@@ -24,9 +24,9 @@ namespace CDNAPI.Repository
             DbSet.Add(entity);
             await SaveChanges();
         }
-        public Task<TEntity> GetById(Guid Id)
+        public async Task<TEntity> GetById(Guid Id)
         {
-            throw new NotImplementedException();
+            return await DbSet.FindAsync(Id);
         }
 
         public void Dispose()

@@ -15,7 +15,6 @@ namespace CDNAPI.Utils
             var lines = input.Split('\n');
             var output = new StringBuilder();
 
-            // Adicionar cabeçalho
             output.AppendLine("#Version: 1.0");
             output.AppendLine($"#Date: {DateTime.Now:dd/MM/yyyy HH:mm:ss}");
             output.AppendLine("#Fields: provider http-method status-code uri-path time-taken response-size cache-status");
@@ -33,7 +32,6 @@ namespace CDNAPI.Utils
                 var uriPath = parts[3].Split(' ')[1];
                 var timeTaken = Math.Round(double.Parse(parts[4]));
 
-                // Converter INVALIDATE para REFRESH_HIT
                 if (cacheStatus == "INVALIDATE")
                     cacheStatus = "REFRESH_HIT";
 

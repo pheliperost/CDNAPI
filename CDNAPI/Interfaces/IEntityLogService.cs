@@ -10,9 +10,9 @@ namespace CDNAPI.Interfaces
     {
         Task<EntityLog> TransformLogAsync(string input, string inputType, string outputFormat);
         Task<IEnumerable<EntityLog>> GetSavedLogsAsync();
-        Task<IEnumerable<EntityLog>> GetTransformedLogsAsync();
+        Task<IEnumerable<String>> GetTransformedLogsAsync();
         Task<EntityLog> GetSavedLogByIdAsync(Guid id);
         Task<EntityLog> GetTransformedLogByIdAsync(Guid id);
-        Task<Guid> SaveLogAsync(string content);
+        Task<EntityLog> SaveLogMinhaCDNFormat(string content);
     }
 }

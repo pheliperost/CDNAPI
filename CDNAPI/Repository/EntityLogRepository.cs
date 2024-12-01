@@ -23,7 +23,7 @@ namespace CDNAPI.Repository
             return await _apiDbContext.EntityLogs.ToListAsync();
         }
 
-        public async Task<Guid> SaveAsync(EntityLog entitylog)
+        public async Task<Guid> Save(EntityLog entitylog)
         {
             _apiDbContext.EntityLogs.Add(entitylog);
             await _apiDbContext.SaveChangesAsync();

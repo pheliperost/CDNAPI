@@ -37,10 +37,13 @@ namespace CDNAPI.Services
             return await _entityLogRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<EntityLog>> GetTransformedLogsAsync()
+        public async Task<IEnumerable<String>> GetTransformedLogsAsync()
         {
             var logs = await _entityLogRepository.GetAllAsync();
-            return logs.Where(l => !string.IsNullOrEmpty(l.AgoraLog));
+            
+                logs = logs.Where(l => !string.IsNullOrEmpty(l.AgoraLog));
+
+            return logs.Select(p => p.AgoraLog).ToList();
         }
 
         public async Task<EntityLog> GetTransformedLogByIdAsync(Guid id)
@@ -49,14 +52,23 @@ namespace CDNAPI.Services
             return !string.IsNullOrEmpty(log.AgoraLog) ? log : null;
         }
 
-        public async Task<Guid> SaveLogAsync(string content)
+        public async Task<EntityLog> SaveLogMinhaCDNFormat(string content)
         {
+            string MinhaCDNLogContent;
+            using (var client = new HttpClient())
+            {
+                MinhaCDNLogContent = await client.GetStringAsync(content);
+            }
             var log = new EntityLog
             {
-                MinhaCDNLog = content,
+                MinhaCDNLog = MinhaCDNLogContent,
+                URL = content,
                 CreatedAt = DateTime.UtcNow
             };
-            return await _entityLogRepository.SaveAsync(log);
+             var id =await _entityLogRepository.Save(log);
+
+
+            return await _entityLogRepository.GetById(id);
         }
 
 
@@ -91,7 +103,7 @@ namespace CDNAPI.Services
                 log.FilePath = await SaveToFileAsync(agoraFormat);
             }
 
-            await _entityLogRepository.SaveAsync(log);
+            await _entityLogRepository.Save(log);
             return log;
         }
 

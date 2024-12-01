@@ -10,7 +10,7 @@ namespace CDNAPI.Interfaces
     {
         Task<EntityLog> GetByIdAsync(Guid id);
         Task<IEnumerable<EntityLog>> GetAllAsync();
-        Task<Guid> SaveAsync(EntityLog entitylog);
+        Task<Guid> Save(EntityLog entitylog);
         Task<EntityLog> UpdateAsync(EntityLog entitylog);
     }
 }

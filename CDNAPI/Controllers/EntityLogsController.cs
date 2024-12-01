@@ -63,11 +63,11 @@ namespace CDNAPI.Controllers
             return Ok(log);
         }
 
-        [HttpPost("save")]
-        public async Task<IActionResult> SaveLog([FromBody] string content)
+        [HttpPost("Save")]
+        public async Task<IActionResult> SaveLogMINHACDNFormat([FromBody] string content)
         {
-            var id = await _IEntityLogService.SaveLogAsync(content);
-            return Ok(new { Id = id });
+            var entityLog = await _IEntityLogService.SaveLogMinhaCDNFormat(content);
+            return Ok(entityLog.MinhaCDNLog);
         }
     }
 }
