@@ -46,10 +46,16 @@ namespace CDNAPI.Services
             return logs.Select(p => p.AgoraLog).ToList();
         }
 
-        public async Task<EntityLog> GetTransformedLogByIdAsync(Guid id)
+        public async Task<String> GetTransformedLogByIdAsync(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);
-            return !string.IsNullOrEmpty(log.AgoraLog) ? log : null;
+            return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
+        }
+
+        public async Task<EntityLog> GetOriginalAndTransformedLogById(Guid id)
+        {
+            var log = await _entityLogRepository.GetByIdAsync(id);
+            return log;
         }
 
         public async Task<EntityLog> SaveLogMinhaCDNFormat(string content)
@@ -126,9 +132,19 @@ namespace CDNAPI.Services
             return filePath;
         }
 
+        private string CombineLogs(string minhaCDNLog, string agoraLog)
+        {
+            if (string.IsNullOrEmpty(agoraLog))
+            {
+                return minhaCDNLog;
+            }
+            return $"{minhaCDNLog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
+        }
+
         public void Dispose()
         {
             _entityLogRepository?.Dispose();
         }
+
     }
 }

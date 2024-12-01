@@ -55,14 +55,22 @@ namespace CDNAPI.Controllers
             return Ok(log);
         }
 
-        [HttpGet("transformed/{id}")]
+        [HttpGet("GetTransformedLog/{id}")]
         public async Task<IActionResult> GetTransformedLogById(Guid id)
         {
             var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
             if (log == null) return NotFound();
             return Ok(log);
         }
-        
+
+        [HttpGet("GetOriginalAndTransformed/{id}")]
+        public async Task<IActionResult> GetOriginalAndTransformedById(Guid id)
+        {
+            var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
+            if (log == null) return NotFound();
+            return Ok(log);
+        }
+
         [HttpPost("Save")]
         public async Task<IActionResult> SaveLogMINHACDNFormat([FromBody] string content)
         {
