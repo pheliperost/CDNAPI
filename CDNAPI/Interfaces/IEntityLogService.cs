@@ -8,7 +8,8 @@ namespace CDNAPI.Interfaces
 {
     public interface IEntityLogService : IDisposable
     {
-        Task<EntityLog> TransformLogAsync(string input, string inputType, string outputFormat);
+        Task<String> TransformLogFromRequest(string input, string inputType, string outputFormat);
+        Task<String> TransformLogSavedById(Guid id, string outputFormat);
         Task<IEnumerable<EntityLog>> GetSavedLogsAsync();
         Task<IEnumerable<String>> GetTransformedLogsAsync();
         Task<EntityLog> GetSavedLogByIdAsync(Guid id);

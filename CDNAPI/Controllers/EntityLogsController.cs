@@ -26,10 +26,19 @@ namespace CDNAPI.Controllers
             _IEntityLogService = EntityLogService;
         }
 
-        [HttpPost("transform")]
-        public async Task<IActionResult> TransformLog([FromBody] LogTransformRequest request)
+        [HttpPost("TransformToAgoraFormat")]
+        public async Task<IActionResult> TransformLog([FromBody] TransformLogRequest request)
         {
-            var result = await _IEntityLogService.TransformLogAsync(request.Input, request.InputType, request.OutputFormat);
+            var result = await _IEntityLogService.TransformLogFromRequest(request.Input, request.InputType, request.OutputFormat);
+
+            return Ok(result);
+        }
+
+        [HttpPost("TransformLogSaved")]
+        public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedRequest request)
+        {
+            var result = await _IEntityLogService.TransformLogSavedById(request.Id, request.OutputFormat);
+
             return Ok(result);
         }
 
@@ -40,19 +49,21 @@ namespace CDNAPI.Controllers
             return Ok(logs);
         }
 
-        [HttpGet("transformed")]
+        //verificar eventual melhoria no retorno
+        [HttpGet("GetAllTransformedLogs")]
         public async Task<IActionResult> GetTransformedLogs()
         {
             var logs = await _IEntityLogService.GetTransformedLogsAsync();
             return Ok(logs);
         }
 
-        [HttpGet("saved/{id}")]
+        //log saved but not transformed
+        [HttpGet("GetSavedLog/{id}")]
         public async Task<IActionResult> GetSavedLogById(Guid id)
         {
             var log = await _IEntityLogService.GetSavedLogByIdAsync(id);
             if (log == null) return NotFound();
-            return Ok(log);
+            return Ok(log.MinhaCDNLog);
         }
 
         [HttpGet("GetTransformedLog/{id}")]
@@ -80,9 +91,15 @@ namespace CDNAPI.Controllers
     }
 }
 
-public class LogTransformRequest
+public class TransformLogRequest
 {
     public string Input { get; set; }
     public string InputType { get; set; }
+    public string OutputFormat { get; set; }
+}
+
+public class TransformSavedRequest
+{
+    public Guid Id { get; set; }
     public string OutputFormat { get; set; }
 }

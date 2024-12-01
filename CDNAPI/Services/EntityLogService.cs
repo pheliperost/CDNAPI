@@ -76,28 +76,22 @@ namespace CDNAPI.Services
         }
 
 
-        public async Task<EntityLog> TransformLogAsync(string input, string inputType, string outputFormat)
+        public async Task<String> TransformLogFromRequest(string url, string inputType, string outputFormat)
         {
-            string minhaCDNLog;
-            if (inputType == "url")
+            string minhaCDNLog, result = "";
+
+            using (var client = new HttpClient())
             {
-                using (var client = new HttpClient())
-                {
-                    minhaCDNLog = await client.GetStringAsync(input);
-                }
+                minhaCDNLog = await client.GetStringAsync(url);
             }
-            else
-            {
-                var entitylog = await _entityLogRepository.GetByIdAsync(new Guid(input));
-                minhaCDNLog = entitylog.MinhaCDNLog;
-            }
+            
 
             var agoraFormat = _logTransformer.Transform(minhaCDNLog);
             var log = new EntityLog
             {
                 MinhaCDNLog = minhaCDNLog,
                 AgoraLog = agoraFormat,
-                URL = inputType == "url" ? input : null,
+                URL = inputType == "url" ? url : null,
                 OutputFormat = outputFormat,
                 CreatedAt = DateTime.UtcNow
             };
@@ -105,10 +99,44 @@ namespace CDNAPI.Services
             if (outputFormat == "file")
             {
                 log.FilePath = await SaveToFileAsync(agoraFormat);
+                result = log.FilePath;
             }
 
+            if (outputFormat == "response")
+            {
+                result = log.AgoraLog;
+            }
+
+
             await _entityLogRepository.Save(log);
-            return log;
+            return result;
+        }
+
+        public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
+        {
+            string result = "";
+
+            var entitylog = await _entityLogRepository.GetByIdAsync(id);
+
+            var agoraLog = _logTransformer.Transform(entitylog.MinhaCDNLog);
+
+
+            entitylog.AgoraLog = agoraLog;
+
+            await _entityLogRepository.UpdateAsync(entitylog);
+
+            if (outputFormat == "file")
+            {
+                entitylog.FilePath = await SaveToFileAsync(agoraLog);
+                result = entitylog.FilePath;
+            }
+
+            if (outputFormat == "response")
+            {
+                result = entitylog.AgoraLog;
+            }
+
+            return result;
         }
 
         private async Task<string> SaveToFileAsync(string content)
