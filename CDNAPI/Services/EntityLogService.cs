@@ -92,7 +92,6 @@ namespace CDNAPI.Services
                 MinhaCDNLog = minhaCDNLog,
                 AgoraLog = agoraFormat,
                 URL = inputType == "url" ? url : null,
-                OutputFormat = outputFormat,
                 CreatedAt = DateTime.UtcNow
             };
 

@@ -12,7 +12,6 @@ namespace CDNAPI.Models
         public string AgoraLog { get; set; }
         public DateTime CreatedAt { get; set; }
         public string URL { get; set; }
-        public string OutputFormat { get; set; }
         public string FilePath { get; set; }
 
     }
