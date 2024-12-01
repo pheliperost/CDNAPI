@@ -62,7 +62,7 @@ namespace CDNAPI.Controllers
             if (log == null) return NotFound();
             return Ok(log);
         }
-
+        
         [HttpPost("Save")]
         public async Task<IActionResult> SaveLogMINHACDNFormat([FromBody] string content)
         {

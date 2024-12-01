@@ -65,10 +65,8 @@ namespace CDNAPI.Services
                 URL = content,
                 CreatedAt = DateTime.UtcNow
             };
-             var id =await _entityLogRepository.Save(log);
 
-
-            return await _entityLogRepository.GetById(id);
+            return await _entityLogRepository.Save(log);
         }
 
 
