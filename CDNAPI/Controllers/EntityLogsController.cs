@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CDNAPI.Models;
-using System.Net.Http;
 using CDNAPI.Interfaces;
+using CDNAPI.Requests;
 
 namespace CDNAPI.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class EntityLogsController : ControllerBase
@@ -26,7 +21,7 @@ namespace CDNAPI.Controllers
             _IEntityLogService = EntityLogService;
         }
 
-        [HttpPost("TransformToAgoraFormat")]
+        [HttpPost("TransformToAgoraFormatByRequest")]
         public async Task<IActionResult> TransformLog([FromBody] TransformLogRequest request)
         {
             var result = await _IEntityLogService.TransformLogFromRequest(request.Input, request.InputType, request.OutputFormat);
@@ -34,7 +29,7 @@ namespace CDNAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("TransformLogSaved")]
+        [HttpPost("TransformLogSavedById")]
         public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedRequest request)
         {
             var result = await _IEntityLogService.TransformLogSavedById(request.Id, request.OutputFormat);
@@ -42,7 +37,8 @@ namespace CDNAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("saved")]
+        //verificar eventual melhoria no retorno
+        [HttpGet("GetAllSavedLogs")]
         public async Task<IActionResult> GetSavedLogs()
         {
             var logs = await _IEntityLogService.GetSavedLogsAsync();
@@ -58,7 +54,7 @@ namespace CDNAPI.Controllers
         }
 
         //log saved but not transformed
-        [HttpGet("GetSavedLog/{id}")]
+        [HttpGet("GetSavedLogById/{id}")]
         public async Task<IActionResult> GetSavedLogById(Guid id)
         {
             var log = await _IEntityLogService.GetSavedLogByIdAsync(id);
@@ -66,7 +62,7 @@ namespace CDNAPI.Controllers
             return Ok(log.MinhaCDNLog);
         }
 
-        [HttpGet("GetTransformedLog/{id}")]
+        [HttpGet("GetTransformedLogById/{id}")]
         public async Task<IActionResult> GetTransformedLogById(Guid id)
         {
             var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
@@ -74,32 +70,12 @@ namespace CDNAPI.Controllers
             return Ok(log);
         }
 
-        [HttpGet("GetOriginalAndTransformed/{id}")]
-        public async Task<IActionResult> GetOriginalAndTransformedById(Guid id)
+        [HttpGet("GetOriginalAndTransformedLogById/{id}")]
+        public async Task<IActionResult> GetOriginalAndTransformedLogById(Guid id)
         {
             var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
             if (log == null) return NotFound();
             return Ok(log);
         }
-
-        [HttpPost("Save")]
-        public async Task<IActionResult> SaveLogMINHACDNFormat([FromBody] string content)
-        {
-            var entityLog = await _IEntityLogService.SaveLogMinhaCDNFormat(content);
-            return Ok(entityLog.MinhaCDNLog);
-        }
     }
-}
-
-public class TransformLogRequest
-{
-    public string Input { get; set; }
-    public string InputType { get; set; }
-    public string OutputFormat { get; set; }
-}
-
-public class TransformSavedRequest
-{
-    public Guid Id { get; set; }
-    public string OutputFormat { get; set; }
 }
