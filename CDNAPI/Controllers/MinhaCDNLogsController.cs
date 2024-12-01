@@ -54,6 +54,33 @@ namespace CDNAPI.Controllers
             return Ok(minhaCDNLog);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add()
+        {
+            try
+            {
+                var minhaCDNLog = new MinhaCDNLog
+                {
+                    cachestatus = "MISS",
+                    clientId = "412",
+                    statuscode = "500",
+                    httpmethod = "PUT",
+                    uripath = "/uploadFile",
+                    timetaken = "210.3"
+                };
+
+                await _IMinhaCDNLogService.Add(minhaCDNLog);
+
+                return Ok("MinhaCDNLog adicionado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, "Ocorreu um erro ao adicionar MinhaCDNLog");
+            }
+        }
+
+
         [HttpPost("AddMinhaCDNByURL")]
         public async Task<IActionResult> AddMinhaCDNByURL([FromBody] FileUrlRequest request)
         {

@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace CDNAPI.Models
 {
-    public class MinhaCDNLog : Entity
+    public class AgoraLog : Entity
     {
+        public Guid MinhaCDNLogId { get; set; }
         public string clientId { get; set; }
         public string provider { get; set; }
         public string httpmethod { get; set; }
@@ -15,5 +13,8 @@ namespace CDNAPI.Models
         public string cachestatus { get; set; }
         public string timetaken { get; set; }
 
+
+        //EF Relations 
+        public MinhaCDNLog MinhaCDNLog { get; set; }
     }
 }

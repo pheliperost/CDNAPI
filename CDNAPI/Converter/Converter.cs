@@ -7,5 +7,9 @@ namespace CDNAPI.Converter
 {
     public class Converter
     {
+        //public List<String> ConvertFromMinhaCDNtoAgora()
+        //{
+
+        //}
     }
 }
