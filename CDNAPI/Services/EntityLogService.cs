@@ -49,13 +49,13 @@ namespace CDNAPI.Services
         public async Task<String> GetTransformedLogByIdAsync(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);
-            return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
+            return log.AgoraLog;
         }
 
-        public async Task<EntityLog> GetOriginalAndTransformedLogById(Guid id)
+        public async Task<String> GetOriginalAndTransformedLogById(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);
-            return log;
+            return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
         public async Task<EntityLog> SaveLogMinhaCDNFormat(string content)
