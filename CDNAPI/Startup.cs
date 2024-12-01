@@ -36,10 +36,9 @@ namespace CDNAPI
 
             services.AddHttpClient();
 
-            //services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Log Converter - UneConte", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Log Converter - UneCont", Version = "v1" });
             });
 
             services.AddScoped<ApiDbContext>();
@@ -49,13 +48,10 @@ namespace CDNAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                //app.UseSwagger();
-                //app.UseSwaggerUI();
 
                 app.UseDeveloperExceptionPage();
             }
@@ -67,7 +63,7 @@ namespace CDNAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Log Converter - UneCont");
             });
 
             app.UseHttpsRedirection();

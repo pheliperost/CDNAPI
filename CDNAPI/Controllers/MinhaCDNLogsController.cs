@@ -37,7 +37,7 @@ namespace CDNAPI.Controllers
 
         // GET: api/MinhaCDNLogs/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMinhaCDNLog([FromRoute] Guid id)
+        public async Task<IActionResult> GetMinhaCDNLogById([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -52,6 +52,36 @@ namespace CDNAPI.Controllers
             }
 
             return Ok(minhaCDNLog);
+        }
+
+        [HttpPost("AddMinhaCDNByURL")]
+        public async Task<IActionResult> AddMinhaCDNByURL([FromBody] FileUrlRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Url))
+            {
+                return BadRequest("The file URL is required.");
+            }
+
+            try
+            {
+                // 1. Download the file from the URL
+                var client = _httpClientFactory.CreateClient();
+                var fileContent = await client.GetStringAsync(request.Url);
+
+                // 2. Process the file content (e.g., reverse the text for demonstration)
+                var processedContent = ProcessContent(fileContent);
+
+                // 3. Return the processed content
+                return Ok(new { ProcessedContent = processedContent });
+            }
+            catch (HttpRequestException ex)
+            {
+                return BadRequest($"Error fetching file: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
+            }
         }
 
         //// PUT: api/MinhaCDNLogs/5
@@ -89,20 +119,7 @@ namespace CDNAPI.Controllers
         //    return NoContent();
         //}
 
-        //// POST: api/MinhaCDNLogs
-        //[HttpPost]
-        //public async Task<IActionResult> PostMinhaCDNLog([FromBody] MinhaCDNLog minhaCDNLog)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
 
-        //    _context.MinhaCDNLogs.Add(minhaCDNLog);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetMinhaCDNLog", new { id = minhaCDNLog.Id }, minhaCDNLog);
-        //}
 
         //// DELETE: api/MinhaCDNLogs/5
         //[HttpDelete("{id}")]
@@ -131,37 +148,9 @@ namespace CDNAPI.Controllers
         //}
 
 
-        
 
-        [HttpPost("ImportFromUrl")]
-        public async Task<IActionResult> ProcessFile([FromBody] FileUrlRequest request)
-        {
-            if (string.IsNullOrWhiteSpace(request.Url))
-            {
-                return BadRequest("The file URL is required.");
-            }
 
-            try
-            {
-                // 1. Download the file from the URL
-                var client = _httpClientFactory.CreateClient();
-                var fileContent = await client.GetStringAsync(request.Url);
 
-                // 2. Process the file content (e.g., reverse the text for demonstration)
-                var processedContent = ProcessContent(fileContent);
-
-                // 3. Return the processed content
-                return Ok(new { ProcessedContent = processedContent });
-            }
-            catch (HttpRequestException ex)
-            {
-                return BadRequest($"Error fetching file: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
-        }
 
         private string ProcessContent(string content)
         {
