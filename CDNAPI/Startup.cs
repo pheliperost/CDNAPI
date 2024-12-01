@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CDNAPI.Model;
+using CDNAPI.Interfaces;
+using CDNAPI.Models;
+using CDNAPI.Repository;
+using CDNAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,8 +39,12 @@ namespace CDNAPI
             //services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Log Converter - UneConte", Version = "v1" });
             });
+
+            services.AddScoped<ApiDbContext>();
+            services.AddScoped<IMinhaCDNLogRepository, MinhaCDNLogRepository>();
+            services.AddScoped<IMinhaCDNLogService, MinhaCDNLogService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
