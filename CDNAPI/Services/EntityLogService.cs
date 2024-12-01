@@ -123,8 +123,6 @@ namespace CDNAPI.Services
 
             entitylog.AgoraLog = agoraLog;
 
-            await _entityLogRepository.UpdateAsync(entitylog);
-
             if (outputFormat == "file")
             {
                 entitylog.FilePath = await SaveToFileAsync(agoraLog);
@@ -135,6 +133,8 @@ namespace CDNAPI.Services
             {
                 result = entitylog.AgoraLog;
             }
+
+            await _entityLogRepository.UpdateAsync(entitylog);
 
             return result;
         }
