@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDNAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20241130021943_Initial")]
-    partial class Initial
+    [Migration("20241201154934_EntityLog_Fields_Changed")]
+    partial class EntityLog_Fields_Changed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,28 +21,26 @@ namespace CDNAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CDNAPI.Model.MinhaCDNLog", b =>
+            modelBuilder.Entity("CDNAPI.Models.EntityLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("cachestatus");
+                    b.Property<string>("AgoraLog");
 
-                    b.Property<string>("clientId");
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("httpmethod");
+                    b.Property<string>("FilePath");
 
-                    b.Property<string>("provider");
+                    b.Property<string>("MinhaCDNLog");
 
-                    b.Property<string>("statuscode");
+                    b.Property<string>("OutputFormat");
 
-                    b.Property<string>("timetaken");
-
-                    b.Property<string>("uripath");
+                    b.Property<string>("URL");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MinhaCDNLogs");
+                    b.ToTable("EntityLogs");
                 });
 #pragma warning restore 612, 618
         }

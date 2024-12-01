@@ -13,8 +13,7 @@ namespace CDNAPI.Models
 
         }
 
-        public DbSet<MinhaCDNLog> MinhaCDNLogs { get; set; }
-        public DbSet<AgoraLog> AgoraLogs { get; set; }
+        public DbSet<EntityLog> EntityLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

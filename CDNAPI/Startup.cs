@@ -6,6 +6,7 @@ using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Repository;
 using CDNAPI.Services;
+using CDNAPI.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,8 +43,9 @@ namespace CDNAPI
             });
 
             services.AddScoped<ApiDbContext>();
-            services.AddScoped<IMinhaCDNLogRepository, MinhaCDNLogRepository>();
-            services.AddScoped<IMinhaCDNLogService, MinhaCDNLogService>();
+            services.AddScoped<IEntityLogRepository, EntityLogRepository>();
+            services.AddScoped<IEntityLogService, EntityLogService>();
+            services.AddScoped<ILogTransformer, LogTransformer>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
