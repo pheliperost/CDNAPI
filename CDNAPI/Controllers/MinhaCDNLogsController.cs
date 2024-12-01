@@ -96,7 +96,7 @@ namespace CDNAPI.Controllers
                 var fileContent = await client.GetStringAsync(request.Url);
 
                 // 2. Process the file content (e.g., reverse the text for demonstration)
-                var processedContent = ProcessContent(fileContent);
+                var processedContent = await _IMinhaCDNLogService.ConverterTextToModel(fileContent);
 
                 // 3. Return the processed content
                 return Ok(new { ProcessedContent = processedContent });

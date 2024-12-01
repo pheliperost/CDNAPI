@@ -10,5 +10,6 @@ namespace CDNAPI.Interfaces
     {
         Task Add(MinhaCDNLog minhaCDNLog);
         Task <MinhaCDNLog>GetById(Guid id);
+        Task<MinhaCDNLog> ConverterTextToModel(string fileContent);
     }
 }

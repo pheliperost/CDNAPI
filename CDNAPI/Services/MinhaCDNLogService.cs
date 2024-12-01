@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CDNAPI.LogConverter;
 
 namespace CDNAPI.Services
 {
@@ -22,6 +23,13 @@ namespace CDNAPI.Services
         public async Task<MinhaCDNLog> GetById(Guid id)
         {
            return await _minhaCDNRepository.GetMinhaCDNLog(id);
+        }
+
+        public async Task<MinhaCDNLog> ConverterTextToModel(string fileContent)
+        {
+            var a = Converter.ConvertStringtoModel(fileContent);
+            return a;
+
         }
 
         public void Dispose()
