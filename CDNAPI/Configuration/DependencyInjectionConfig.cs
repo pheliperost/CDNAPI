@@ -1,5 +1,6 @@
 ﻿using CDNAPI.Interfaces;
 using CDNAPI.Models;
+using CDNAPI.Models.Validations;
 using CDNAPI.Repository;
 using CDNAPI.Services;
 using CDNAPI.Utils;

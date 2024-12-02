@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CDNAPI.Interfaces;
-using CDNAPI.Requests;
+using CDNAPI.ViewModels;
 
 namespace CDNAPI.Controllers
 {
@@ -22,15 +22,15 @@ namespace CDNAPI.Controllers
         }
 
         [HttpPost("TransformToAgoraFormatByRequest")]
-        public async Task<IActionResult> TransformLog([FromBody] TransformLogRequest request)
+        public async Task<IActionResult> TransformLog([FromBody] TransformLogViewModel request)
         {
-            var result = await _IEntityLogService.TransformLogFromRequest(request.Input, request.InputType, request.OutputFormat);
+            var result = await _IEntityLogService.TransformLogFromRequest(request.URL,  request.OutputFormat);
 
             return Ok(result);
         }
 
         [HttpPost("TransformLogSavedById")]
-        public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedRequest request)
+        public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedRequestViewModel request)
         {
             var result = await _IEntityLogService.TransformLogSavedById(request.Id, request.OutputFormat);
 
@@ -55,25 +55,40 @@ namespace CDNAPI.Controllers
 
         //log saved but not transformed
         [HttpGet("GetSavedLogById/{id}")]
-        public async Task<IActionResult> GetSavedLogById(Guid id)
+        public async Task<IActionResult> GetSavedLogById([FromRoute] LogSearchViewModel viewModel)
         {
-            var log = await _IEntityLogService.GetSavedLogByIdAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var log = await _IEntityLogService.GetSavedLogByIdAsync(viewModel.Id);
             if (log == null) return NotFound();
             return Ok(log.MinhaCDNLog);
         }
 
         [HttpGet("GetTransformedLogById/{id}")]
-        public async Task<IActionResult> GetTransformedLogById(Guid id)
+        public async Task<IActionResult> GetTransformedLogById([FromRoute] LogSearchViewModel viewModel)
         {
-            var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var log = await _IEntityLogService.GetTransformedLogByIdAsync(viewModel.Id);
             if (log == null) return NotFound();
             return Ok(log);
         }
 
         [HttpGet("GetOriginalAndTransformedLogById/{id}")]
-        public async Task<IActionResult> GetOriginalAndTransformedLogById(Guid id)
+        public async Task<IActionResult> GetOriginalAndTransformedLogById([FromRoute] LogSearchViewModel viewModel)
         {
-            var log = await _IEntityLogService.GetTransformedLogByIdAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var log = await _IEntityLogService.GetTransformedLogByIdAsync(viewModel.Id);
             if (log == null) return NotFound();
             return Ok(log);
         }

@@ -76,22 +76,21 @@ namespace CDNAPI.Services
         }
 
 
-        public async Task<String> TransformLogFromRequest(string url, string inputType, string outputFormat)
+        public async Task<String> TransformLogFromRequest(string url,  string outputFormat)
         {
             string minhaCDNLog, result = "";
 
             using (var client = new HttpClient())
             {
                 minhaCDNLog = await client.GetStringAsync(url);
-            }
-            
+            }            
 
             var agoraFormat = _logTransformer.Transform(minhaCDNLog);
             var log = new EntityLog
             {
                 MinhaCDNLog = minhaCDNLog,
                 AgoraLog = agoraFormat,
-                URL = inputType == "url" ? url : null,
+                URL =  url,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -142,18 +141,15 @@ namespace CDNAPI.Services
         {
             string directory = "ConvertedLogs";
 
-            // Cria o diretório se não existir
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            // Gera um nome único para o arquivo usando timestamp
             string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string fileName = $"log_{timestamp}.txt";
             string filePath = Path.Combine(directory, fileName);
 
-            // Salva o conteúdo no arquivo de forma assíncrona
             await File.WriteAllTextAsync(filePath, content);
 
             return filePath;
