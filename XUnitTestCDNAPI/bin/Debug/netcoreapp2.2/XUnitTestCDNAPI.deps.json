@@ -1,22 +1,36 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "9b733d4e153f8348c1af9cbfed8230799ead159d"
+    "signature": "7cc27af54a4c7c00ea3bebf2116920fcc962a013"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.2": {
       "XUnitTestCDNAPI/1.0.0": {
         "dependencies": {
+          "AutoFixture": "4.18.1",
           "Bogus": "35.6.1",
           "CDNAPI": "1.0.0",
           "Microsoft.NET.Test.Sdk": "16.0.1",
           "Moq": "4.20.72",
+          "Moq.AutoMock": "1.2.0.120",
           "xunit": "2.4.0",
           "xunit.runner.visualstudio": "2.4.0"
         },
         "runtime": {
           "XUnitTestCDNAPI.dll": {}
+        }
+      },
+      "AutoFixture/4.18.1": {
+        "dependencies": {
+          "Fare": "2.1.1",
+          "System.ComponentModel.Annotations": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoFixture.dll": {
+            "assemblyVersion": "4.18.0.0",
+            "fileVersion": "4.18.1.694"
+          }
         }
       },
       "Bogus/35.6.1": {
@@ -36,6 +50,14 @@
           "lib/netstandard2.0/Castle.Core.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.1.1.0"
+          }
+        }
+      },
+      "Fare/2.1.1": {
+        "runtime": {
+          "lib/netstandard1.1/Fare.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.1.0"
           }
         }
       },
@@ -1139,6 +1161,17 @@
           "lib/netstandard2.0/Moq.dll": {
             "assemblyVersion": "4.20.72.0",
             "fileVersion": "4.20.72.0"
+          }
+        }
+      },
+      "Moq.AutoMock/1.2.0.120": {
+        "dependencies": {
+          "Moq": "4.20.72"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Moq.AutoMock.dll": {
+            "assemblyVersion": "1.2.0.120",
+            "fileVersion": "1.2.0.120"
           }
         }
       },
@@ -2620,7 +2653,6 @@
           "Microsoft.EntityFrameworkCore.Design": "2.1.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.10",
-          "Moq": "4.20.72",
           "Swashbuckle.AspNetCore": "5.0.0-rc4"
         },
         "runtime": {
@@ -2635,6 +2667,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoFixture/4.18.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BmWZDY4fkrYOyd5/CTBOeXbzsNwV8kI4kDi/Ty1Y5F+WDHBVKxzfWlBE4RSicvZ+EOi2XDaN5uwdrHsItLW6Kw==",
+      "path": "autofixture/4.18.1",
+      "hashPath": "autofixture.4.18.1.nupkg.sha512"
+    },
     "Bogus/35.6.1": {
       "type": "package",
       "serviceable": true,
@@ -2648,6 +2687,13 @@
       "sha512": "sha512-rpYtIczkzGpf+EkZgDr9CClTdemhsrwA/W5hMoPjLkRFnXzH44zDLoovXeKtmxb1ykXK9aJVODSpiJml8CTw2g==",
       "path": "castle.core/5.1.1",
       "hashPath": "castle.core.5.1.1.nupkg.sha512"
+    },
+    "Fare/2.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HaI8puqA66YU7/9cK4Sgbs1taUTP1Ssa4QT2PIzqJ7GvAbN1QgkjbRsjH+FSbMh1MJdvS0CIwQNLtFT+KF6KpA==",
+      "path": "fare/2.1.1",
+      "hashPath": "fare.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.Abstractions/2.0.0": {
       "type": "package",
@@ -3159,6 +3205,13 @@
       "sha512": "sha512-EA55cjyNn8eTNWrgrdZJH5QLFp2L43oxl1tlkoYUKIE9pRwL784OWiTXeCV5ApS+AMYEAlt7Fo03A2XfouvHmQ==",
       "path": "moq/4.20.72",
       "hashPath": "moq.4.20.72.nupkg.sha512"
+    },
+    "Moq.AutoMock/1.2.0.120": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fc7KjDX93+6wez4Z7u0Qrz7ZvZIvKDpxp1HWvQC47I7b1jNM9273REY382mcU+su7ltILa61aNNC9+MbXWYCcg==",
+      "path": "moq.automock/1.2.0.120",
+      "hashPath": "moq.automock.1.2.0.120.nupkg.sha512"
     },
     "Newtonsoft.Json/11.0.2": {
       "type": "package",

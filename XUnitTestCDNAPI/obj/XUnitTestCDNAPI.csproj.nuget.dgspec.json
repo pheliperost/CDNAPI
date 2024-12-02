@@ -130,6 +130,10 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "AutoFixture": {
+              "target": "Package",
+              "version": "[4.18.1, )"
+            },
             "Bogus": {
               "target": "Package",
               "version": "[35.6.1, )"
