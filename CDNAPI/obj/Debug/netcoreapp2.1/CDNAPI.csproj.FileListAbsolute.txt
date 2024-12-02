@@ -11,3 +11,4 @@ D:\Proj Dev\CDNAPI\CDNAPI\CDNAPI\obj\Debug\netcoreapp2.1\CDNAPI.AssemblyInfo.cs
 D:\Proj Dev\CDNAPI\CDNAPI\CDNAPI\obj\Debug\netcoreapp2.1\CDNAPI.RazorTargetAssemblyInfo.cache
 D:\Proj Dev\CDNAPI\CDNAPI\CDNAPI\obj\Debug\netcoreapp2.1\CDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\CDNAPI\obj\Debug\netcoreapp2.1\CDNAPI.pdb
+D:\Proj Dev\CDNAPI\CDNAPI\CDNAPI\obj\Debug\netcoreapp2.1\CDNAPI.csprojAssemblyReference.cache

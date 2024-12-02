@@ -49,18 +49,28 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_AddingNewValidEntityLog_ShouldReturnSuccess()
         {
             // Arrange
-            var requestLog = _requestLogFixture.GenerarateAValidRequestLog();
             var entityLog = _entityLogFixture.GenerarateValidEntityLog(1).FirstOrDefault();
-            var agoraLog = _entityLogFixture.GenerarateValidAgoraLog();
-
-            _entityLogFixture.Mocker.GetMock<IEntityLogService>().Setup(c => c.CreateEntityLog(requestLog.URL,entityLog.MinhaCDNLog, agoraLog))
-                .Returns(entityLog);
 
             // Act
-            var result =  await _entityLogService.TransformLogFromRequest(requestLog.URL, requestLog.OutputFormat);
+            var result =  await _entityLogService.AddEntityLog(entityLog);
 
             // Assert
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(r => r.Save(entityLog), Times.Once);
+
+        }
+
+        [Fact(DisplayName = "Adding a invalid EntityLog Should Return Error")]
+        [Trait("Categoria", "EntityLog Service")]
+        public async Task EntityLogService_AddingNewinvalidEntityLog_ShouldReturnError()
+        {
+            // Arrange
+            var entityLog = _entityLogFixture.GenerarateInvalidEntityLog();
+
+            // Act
+            var result = await _entityLogService.AddEntityLog(entityLog);
+
+            // Assert
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(r => r.Save(entityLog), Times.Never);
 
         }
 

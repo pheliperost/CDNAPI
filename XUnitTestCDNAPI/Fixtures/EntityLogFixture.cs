@@ -45,13 +45,16 @@ namespace XUnitTestCDNAPI.Fixtures
             return entiLogs.Generate(quantityToGenerate);
         }
 
-        public String GenerarateValidAgoraLog()
+        public EntityLog GenerarateInvalidEntityLog()
         {
-            return new Faker().Random.AlphaNumeric(30);
-        }
-            public RequestLogViewModel GenerateInvalidRequestLog()
-        {
-            return new Faker<RequestLogViewModel>();
+            var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.MinhaCDNLog, string.Empty)
+               .RuleFor(c => c.AgoraLog,  string.Empty)
+               .RuleFor(c => c.CreatedAt, DateTime.MinValue)
+               .RuleFor(c => c.URL,string.Empty)
+               .RuleFor(c => c.FilePath, string.Empty);
+
+            return entiLogs;
         }
 
         public EntityLogService GetService()
