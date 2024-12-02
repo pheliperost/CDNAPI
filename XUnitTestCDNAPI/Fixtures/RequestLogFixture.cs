@@ -10,7 +10,8 @@ using Xunit;
 namespace XUnitTestCDNAPI.Fixtures
 {
     [CollectionDefinition(nameof(RequestLogCollection))]
-    public class RequestLogCollection : ICollectionFixture<RequestLogFixture>
+    public class RequestLogCollection : ICollectionFixture<RequestLogFixture>,
+        ICollectionFixture<EntityLogFixture>
     { }
     public class RequestLogFixture : IDisposable
     {

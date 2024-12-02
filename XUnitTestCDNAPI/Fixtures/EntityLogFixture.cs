@@ -11,12 +11,15 @@ using Xunit;
 namespace XUnitTestCDNAPI.Fixtures
 {
     [CollectionDefinition(nameof(EntityLogCollection))]
-    public class EntityLogCollection : ICollectionFixture<EntityLogFixture>
+    public class EntityLogCollection : ICollectionFixture<EntityLogFixture>, 
+        ICollectionFixture<RequestLogFixture>
     { }
     public class EntityLogFixture : IDisposable
     {
         public EntityLogService _entityLogService;
+        public RequestLogFixture _requestLogFixture;
         public AutoMocker Mocker;
+
         public IEnumerable<EntityLog> GenerarateAValidSavedEntityLog(int quantityToGenerate)
         {
             var entiLogs = new Faker<EntityLog>()
@@ -42,8 +45,11 @@ namespace XUnitTestCDNAPI.Fixtures
             return entiLogs.Generate(quantityToGenerate);
         }
 
-
-        public RequestLogViewModel GenerateInvalidRequestLog()
+        public String GenerarateValidAgoraLog()
+        {
+            return new Faker().Random.AlphaNumeric(30);
+        }
+            public RequestLogViewModel GenerateInvalidRequestLog()
         {
             return new Faker<RequestLogViewModel>();
         }

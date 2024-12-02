@@ -65,25 +65,30 @@ namespace CDNAPI.Services
 
         public async Task<string> TransformLogFromRequest(string url, string outputFormat)
         {
-            if (string.IsNullOrWhiteSpace(url))
-                throw new ArgumentException("URL não pode ser vazia ou nula.", nameof(url));
-
-            if (string.IsNullOrWhiteSpace(outputFormat))
-                throw new ArgumentException("Formato de saída não pode ser vazio ou nulo.", nameof(outputFormat));
+            ValidateInput(url, outputFormat);
 
             var minhaCDNLog = await _fileUtilsService.FetchLogAsync(url);
             var agoraFormat = _logTransformer.Transform(minhaCDNLog);
 
-            var log = CreateEntityLog(url, minhaCDNLog, agoraFormat);
+            var entitylog = CreateEntityLog(url, minhaCDNLog, agoraFormat);
 
-            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraFormat, log);
+            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraFormat, entitylog);
 
-            await _entityLogRepository.Save(log);
+            await _entityLogRepository.Save(entitylog);
 
             return result;
         }
 
-
+        public EntityLog CreateEntityLog(string url, string minhaCDNLog, string agoraFormat)
+        {
+            return new EntityLog
+            {
+                MinhaCDNLog = minhaCDNLog,
+                AgoraLog = agoraFormat,
+                URL = url,
+                CreatedAt = DateTime.UtcNow
+            };
+        }
 
         public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
         {
@@ -112,17 +117,15 @@ namespace CDNAPI.Services
             return result;
         }
 
-
-        private EntityLog CreateEntityLog(string url, string minhaCDNLog, string agoraFormat)
+        private void ValidateInput(string url, string outputFormat)
         {
-            return new EntityLog
-            {
-                MinhaCDNLog = minhaCDNLog,
-                AgoraLog = agoraFormat,
-                URL = url,
-                CreatedAt = DateTime.UtcNow
-            };
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("URL não pode ser vazia ou nula.", nameof(url));
+
+            if (string.IsNullOrWhiteSpace(outputFormat))
+                throw new ArgumentException("Formato de saída não pode ser vazio ou nulo.", nameof(outputFormat));
         }
+
 
         private string CombineLogs(string minhaCDNLog, string agoraLog)
         {
