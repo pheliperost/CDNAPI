@@ -22,7 +22,7 @@ namespace CDNAPI.Controllers
         }
 
         [HttpPost("TransformToAgoraFormatByRequest")]
-        public async Task<IActionResult> TransformLog([FromBody] TransformLogViewModel request)
+        public async Task<IActionResult> TransformLog([FromBody] RequestLogViewModel request)
         {
             var result = await _IEntityLogService.TransformLogFromRequest(request.URL,  request.OutputFormat);
 
@@ -30,7 +30,7 @@ namespace CDNAPI.Controllers
         }
 
         [HttpPost("TransformLogSavedById")]
-        public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedRequestViewModel request)
+        public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedViewModel request)
         {
             var result = await _IEntityLogService.TransformLogSavedById(request.Id, request.OutputFormat);
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CDNAPI.ViewModels
 {
-    public class TransformLogViewModel
+    public class RequestLogViewModel
     {
         [Required(ErrorMessage = "O campo URL é obrigatório")]
         [ValidTextFileUrl]

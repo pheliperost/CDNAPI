@@ -20,8 +20,4 @@
     <ProjectReference Include="..\CDNAPI\CDNAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fixtures\" />
-  </ItemGroup>
-
 </Project>

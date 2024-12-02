@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CDNAPI.ViewModels
 {
-    public class TransformSavedRequestViewModel
+    public class TransformSavedViewModel
     {
         [Required(ErrorMessage = "O campo Input é obrigatório")]
         public Guid Id { get; set; }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.IO;
+using CDNAPI.Utils;
 
 namespace CDNAPI.Services
 {
@@ -13,12 +14,16 @@ namespace CDNAPI.Services
     {
         IEntityLogRepository _entityLogRepository;
         ILogTransformer _logTransformer;
+        IFileUtils _fileUtilsService;
+        
 
         public EntityLogService(IEntityLogRepository entityLogRepository,
-                                ILogTransformer logTransformer)
+                                ILogTransformer logTransformer,
+                                IFileUtils fileUtils)
         {
             _entityLogRepository = entityLogRepository;
             _logTransformer = logTransformer;
+            _fileUtilsService = fileUtils;
         }
         
 
@@ -58,57 +63,27 @@ namespace CDNAPI.Services
             return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
-        public async Task<EntityLog> SaveLogMinhaCDNFormat(string content)
+        public async Task<string> TransformLogFromRequest(string url, string outputFormat)
         {
-            string MinhaCDNLogContent;
-            using (var client = new HttpClient())
-            {
-                MinhaCDNLogContent = await client.GetStringAsync(content);
-            }
-            var log = new EntityLog
-            {
-                MinhaCDNLog = MinhaCDNLogContent,
-                URL = content,
-                CreatedAt = DateTime.UtcNow
-            };
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("URL não pode ser vazia ou nula.", nameof(url));
 
-            return await _entityLogRepository.Save(log);
-        }
+            if (string.IsNullOrWhiteSpace(outputFormat))
+                throw new ArgumentException("Formato de saída não pode ser vazio ou nulo.", nameof(outputFormat));
 
-
-        public async Task<String> TransformLogFromRequest(string url,  string outputFormat)
-        {
-            string minhaCDNLog, result = "";
-
-            using (var client = new HttpClient())
-            {
-                minhaCDNLog = await client.GetStringAsync(url);
-            }            
-
+            var minhaCDNLog = await _fileUtilsService.FetchLogAsync(url);
             var agoraFormat = _logTransformer.Transform(minhaCDNLog);
-            var log = new EntityLog
-            {
-                MinhaCDNLog = minhaCDNLog,
-                AgoraLog = agoraFormat,
-                URL =  url,
-                CreatedAt = DateTime.UtcNow
-            };
 
-            if (outputFormat == "file")
-            {
-                log.FilePath = await SaveToFileAsync(agoraFormat);
-                result = log.FilePath;
-            }
+            var log = CreateEntityLog(url, minhaCDNLog, agoraFormat);
 
-            if (outputFormat == "response")
-            {
-                result = log.AgoraLog;
-            }
-
+            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraFormat, log);
 
             await _entityLogRepository.Save(log);
+
             return result;
         }
+
+
 
         public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
         {
@@ -123,7 +98,7 @@ namespace CDNAPI.Services
 
             if (outputFormat == "file")
             {
-                entitylog.FilePath = await SaveToFileAsync(agoraLog);
+                entitylog.FilePath = await _fileUtilsService.SaveToFileAsync(agoraLog);
                 result = entitylog.FilePath;
             }
 
@@ -137,22 +112,16 @@ namespace CDNAPI.Services
             return result;
         }
 
-        private async Task<string> SaveToFileAsync(string content)
+
+        private EntityLog CreateEntityLog(string url, string minhaCDNLog, string agoraFormat)
         {
-            string directory = "ConvertedLogs";
-
-            if (!Directory.Exists(directory))
+            return new EntityLog
             {
-                Directory.CreateDirectory(directory);
-            }
-
-            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string fileName = $"log_{timestamp}.txt";
-            string filePath = Path.Combine(directory, fileName);
-
-            await File.WriteAllTextAsync(filePath, content);
-
-            return filePath;
+                MinhaCDNLog = minhaCDNLog,
+                AgoraLog = agoraFormat,
+                URL = url,
+                CreatedAt = DateTime.UtcNow
+            };
         }
 
         private string CombineLogs(string minhaCDNLog, string agoraLog)

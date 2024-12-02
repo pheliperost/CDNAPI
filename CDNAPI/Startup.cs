@@ -42,8 +42,7 @@ namespace CDNAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Log Converter - UneCont", Version = "v1" });
             });
-
-
+            
             services.ResolveDependencies();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

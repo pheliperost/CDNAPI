@@ -23,6 +23,8 @@ namespace CDNAPI.Configuration
             services.AddScoped<IEntityLogService, EntityLogService>();
             services.AddScoped<ILogTransformer, LogTransformer>();
 
+            services.AddScoped<FileUtilsService>();
+
             return services;
         }
     }
