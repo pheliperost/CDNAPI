@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CDNAPI.Interfaces
 {
-    public interface IFileUtils : IDisposable
+    public interface IFileUtilsService : IDisposable
     {
         Task<string> FetchLogAsync(string url);
         Task<string> SaveToFileAsync(string content);

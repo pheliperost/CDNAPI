@@ -14,12 +14,12 @@ namespace CDNAPI.Services
     {
         IEntityLogRepository _entityLogRepository;
         ILogTransformer _logTransformer;
-        IFileUtils _fileUtilsService;
+        IFileUtilsService _fileUtilsService;
         
 
         public EntityLogService(IEntityLogRepository entityLogRepository,
                                 ILogTransformer logTransformer,
-                                IFileUtils fileUtils)
+                                IFileUtilsService fileUtils)
         {
             _entityLogRepository = entityLogRepository;
             _logTransformer = logTransformer;
@@ -74,9 +74,15 @@ namespace CDNAPI.Services
 
             string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraFormat, entitylog);
 
-            await _entityLogRepository.Save(entitylog);
+            await AddEntityLog(entitylog);
 
             return result;
+        }
+
+        public async Task<EntityLog> AddEntityLog(EntityLog newEntityLog)
+        {
+            var entityLogAdded = await _entityLogRepository.Save(newEntityLog);
+            return entityLogAdded;
         }
 
         public EntityLog CreateEntityLog(string url, string minhaCDNLog, string agoraFormat)

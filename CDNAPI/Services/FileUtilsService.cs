@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CDNAPI.Services
 {
-    public class FileUtilsService : BaseService, IFileUtils
+    public class FileUtilsService : BaseService, IFileUtilsService
     {
         public FileUtilsService(IHttpClientFactory httpClientFactory)
         {
@@ -31,7 +31,6 @@ namespace CDNAPI.Services
         }
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
     }
