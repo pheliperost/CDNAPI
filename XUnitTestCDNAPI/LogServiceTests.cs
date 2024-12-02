@@ -62,5 +62,6 @@ namespace XUnitTestCDNAPI
             // Assert
             Assert.Equal(log, result);
         }
+
     }
 }

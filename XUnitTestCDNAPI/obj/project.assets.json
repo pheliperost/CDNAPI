@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.2": {
+      "Bogus/35.6.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Bogus.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Bogus.dll": {}
+        }
+      },
       "Castle.Core/5.1.1": {
         "type": "package",
         "dependencies": {
@@ -1397,6 +1406,19 @@
         },
         "runtime": {
           "lib/netstandard2.0/Moq.dll": {}
+        }
+      },
+      "Moq.AutoMock/1.2.0.120": {
+        "type": "package",
+        "dependencies": {
+          "Moq": "4.8.2",
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Moq.AutoMock.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Moq.AutoMock.dll": {}
         }
       },
       "NETStandard.Library/2.0.3": {
@@ -3468,7 +3490,6 @@
           "Microsoft.EntityFrameworkCore.Design": "2.1.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.10",
-          "Moq": "4.20.72",
           "Swashbuckle.AspNetCore": "5.0.0-rc4"
         },
         "compile": {
@@ -3481,6 +3502,25 @@
     }
   },
   "libraries": {
+    "Bogus/35.6.1": {
+      "sha512": "QPJ8zLL0ScEunEoUNhMDigD4ykA/n7vXCZUQdGCFGHBfP2mNYjiCzR9Cj12eaFaDlwkhIC1HKQZihWl8OgbLsw==",
+      "type": "package",
+      "path": "bogus/35.6.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bogus.35.6.1.nupkg.sha512",
+        "bogus.nuspec",
+        "lib/net40/Bogus.dll",
+        "lib/net40/Bogus.xml",
+        "lib/net6.0/Bogus.dll",
+        "lib/net6.0/Bogus.xml",
+        "lib/netstandard1.3/Bogus.dll",
+        "lib/netstandard1.3/Bogus.xml",
+        "lib/netstandard2.0/Bogus.dll",
+        "lib/netstandard2.0/Bogus.xml"
+      ]
+    },
     "Castle.Core/5.1.1": {
       "sha512": "rpYtIczkzGpf+EkZgDr9CClTdemhsrwA/W5hMoPjLkRFnXzH44zDLoovXeKtmxb1ykXK9aJVODSpiJml8CTw2g==",
       "type": "package",
@@ -5325,6 +5365,20 @@
         "moq.4.20.72.nupkg.sha512",
         "moq.nuspec",
         "readme.md"
+      ]
+    },
+    "Moq.AutoMock/1.2.0.120": {
+      "sha512": "Fc7KjDX93+6wez4Z7u0Qrz7ZvZIvKDpxp1HWvQC47I7b1jNM9273REY382mcU+su7ltILa61aNNC9+MbXWYCcg==",
+      "type": "package",
+      "path": "moq.automock/1.2.0.120",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "lib/net45/Moq.AutoMock.dll",
+        "lib/netstandard1.3/Moq.AutoMock.dll",
+        "moq.automock.1.2.0.120.nupkg.sha512",
+        "moq.automock.nuspec"
       ]
     },
     "NETStandard.Library/2.0.3": {
@@ -10535,9 +10589,12 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "Bogus >= 35.6.1",
       "CDNAPI >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 16.0.1",
       "Microsoft.NETCore.App >= 2.2.0",
+      "Moq >= 4.20.72",
+      "Moq.AutoMock >= 1.2.0.120",
       "xunit >= 2.4.0",
       "xunit.runner.visualstudio >= 2.4.0"
     ]
@@ -10587,6 +10644,10 @@
     "frameworks": {
       "netcoreapp2.2": {
         "dependencies": {
+          "Bogus": {
+            "target": "Package",
+            "version": "[35.6.1, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[16.0.1, )"
@@ -10596,6 +10657,14 @@
             "target": "Package",
             "version": "[2.2.0, )",
             "autoReferenced": true
+          },
+          "Moq": {
+            "target": "Package",
+            "version": "[4.20.72, )"
+          },
+          "Moq.AutoMock": {
+            "target": "Package",
+            "version": "[1.2.0.120, )"
           },
           "xunit": {
             "target": "Package",
