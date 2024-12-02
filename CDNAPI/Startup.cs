@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CDNAPI.Configuration;
 using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Repository;
@@ -42,10 +43,8 @@ namespace CDNAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Log Converter - UneCont", Version = "v1" });
             });
 
-            services.AddScoped<ApiDbContext>();
-            services.AddScoped<IEntityLogRepository, EntityLogRepository>();
-            services.AddScoped<IEntityLogService, EntityLogService>();
-            services.AddScoped<ILogTransformer, LogTransformer>();
+
+            services.ResolveDependencies();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
