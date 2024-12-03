@@ -38,7 +38,7 @@
 //            _httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>()))
 //                .Returns(httpClientMock.Object);
 
-//            _transformerMock.Setup(x => x.Transform(It.IsAny<string>()))
+//            _transformerMock.Setup(x => x.TransformLog(It.IsAny<string>()))
 //                .Returns("transformed content");
 
 //            // Act

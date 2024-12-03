@@ -2,6 +2,7 @@
 using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Services;
+using CDNAPI.Utils;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -19,14 +20,11 @@ namespace XUnitTestCDNAPI
     public class EntityLogServiceTests
     {
         private readonly EntityLogFixture _entityLogFixture;
-        private readonly RequestLogFixture _requestLogFixture;
         private readonly EntityLogService _entityLogService;
         
-        public EntityLogServiceTests(EntityLogFixture entityLogFixture,
-                                     RequestLogFixture requestLogFixture)
+        public EntityLogServiceTests(EntityLogFixture entityLogFixture)
         {
             _entityLogFixture = entityLogFixture;
-            _requestLogFixture = requestLogFixture;
             _entityLogService = _entityLogFixture.GetService();
         }
 
@@ -61,7 +59,7 @@ namespace XUnitTestCDNAPI
 
         }
         
-        [Fact(DisplayName = "Transform a Original EntityLog Should Return Success.")]
+        [Fact(DisplayName = "TransformLog a Original EntityLog Should Return Success.")]
         [Trait("Category", "EntityLog Service")]
         public async Task EntityLogService_UpdateValidEntityLog_ShouldReturnSuccess()
         {
@@ -75,7 +73,7 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Once);
         }
 
-        [Fact(DisplayName = "Transform a Invalid Original EntityLog Should Return Error.")]
+        [Fact(DisplayName = "TransformLog a Invalid Original EntityLog Should Return Error.")]
         [Trait("Category", "EntityLog Service")]
         public async Task EntityLogService_UpdateAInvalidEntityLog_ShouldReturnError()
         {
@@ -170,17 +168,23 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
         }
 
-        [Theory]
-        [InlineData("original", null, "original")]
-        [InlineData("original", "transformed", "original\n\ntransformed")]
-        public void CombineLogs_ShouldCombineLogsCorrectly(string minhaCDNLog, string agoraLog, string expected)
+        [Fact(DisplayName = "Get a NonExisting Transformed EntityLog Should Return Error.")]
+        [Trait("Category", "EntityLog Service")]
+        public void EntityLogService_CombineLogs_ShouldAppendBothLogsCorrectly()
         {
-            //// Act
-            //var result = _service.InvokePrivateMethod("CombineLogs",
-            //    minhaCDNLog, agoraLog) as string;
+            //Arrange
+            var minhaCDNlog = _entityLogFixture.GenerateValidEntityLog().MinhaCDNLog;
+            var agoraLog = _entityLogFixture.GenerateValidEntityLog().AgoraLog;
 
-            //// Assert
-            //Assert.Equal(expected.Replace("\n", Environment.NewLine), result);
+            var espectedResult = $"{minhaCDNlog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
+
+
+            // Act
+            var result = LogFormater.CombineLogs(minhaCDNlog, agoraLog);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(espectedResult, result);
         }
     }
 }

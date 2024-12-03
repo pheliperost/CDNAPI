@@ -1,4 +1,5 @@
 ﻿using CDNAPI.Interfaces;
+using CDNAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 namespace CDNAPI.Utils
 {
 
-    public static class LogTransformer 
+    public static class LogFormater 
     {
-        public static string Transform(string input)
+        public static string TransformLog(string input)
         {
             var lines = input.Split('\n');
             var output = new StringBuilder();
@@ -39,6 +40,30 @@ namespace CDNAPI.Utils
             }
 
             return output.ToString();
+        }
+
+
+        public static string CombineLogs(string minhaCDNLog, string agoraLog)
+        {
+            if (string.IsNullOrEmpty(agoraLog))
+            {
+                return minhaCDNLog;
+            }
+            return $"{minhaCDNLog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
+        }
+
+        public static async Task<string> ProcessOutputFormat(string outputFormat, string agoraFormat, EntityLog log)
+        {
+            switch (outputFormat.ToLower())
+            {
+                case "file":
+                    log.FilePath = await FileUtils.SaveToFileAsync(agoraFormat);
+                    return log.FilePath;
+                case "response":
+                    return log.AgoraLog;
+                default:
+                    throw new ArgumentException("Formato de saída inválido.", nameof(outputFormat));
+            }
         }
     }
 }

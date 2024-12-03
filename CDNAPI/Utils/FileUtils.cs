@@ -27,19 +27,6 @@ namespace CDNAPI.Utils
             return await client.GetStringAsync(url);
         }
 
-        public static async Task<string> ProcessOutputFormat(string outputFormat, string agoraFormat, EntityLog log)
-        {
-            switch (outputFormat.ToLower())
-            {
-                case "file":
-                    log.FilePath = await SaveToFileAsync(agoraFormat);
-                    return log.FilePath;
-                case "response":
-                    return log.AgoraLog;
-                default:
-                    throw new ArgumentException("Formato de saída inválido.", nameof(outputFormat));
-            }
-        }
 
         public static async Task<string> SaveToFileAsync(string content)
         {
@@ -59,5 +46,7 @@ namespace CDNAPI.Utils
 
             return filePath;
         }
+
+
     }
 }

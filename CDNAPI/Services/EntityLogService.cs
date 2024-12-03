@@ -44,7 +44,10 @@ namespace CDNAPI.Services
         public async Task<String> GetOriginalAndTransformedLogById(Guid id)
         {
             var log = await _entityLogRepository.GetById(id);
-            return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
+
+            if (log == null)
+                throw new InvalidOperationException($"Registro não encontrado.");
+            return LogFormater.CombineLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
         public async Task<string> TransformLogFromRequest(string url, string outputFormat)
@@ -52,7 +55,7 @@ namespace CDNAPI.Services
             ValidateInput(url, outputFormat);
 
             var minhaCDNLog = await _fileUtilsService.FetchLogAsync(url);
-            var agoraFormat = LogTransformer.Transform(minhaCDNLog);
+            var agoraFormat = LogFormater.TransformLog(minhaCDNLog);
 
             var entitylog = CreateEntityLog(url, minhaCDNLog, agoraFormat);
 
@@ -67,7 +70,7 @@ namespace CDNAPI.Services
         {
             var entitylog = await _entityLogRepository.GetById(id);
 
-            var agoraLog = LogTransformer.Transform(entitylog.MinhaCDNLog);
+            var agoraLog = LogFormater.TransformLog(entitylog.MinhaCDNLog);
 
             entitylog.AgoraLog = agoraLog;
 

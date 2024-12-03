@@ -27,7 +27,7 @@ namespace CDNAPI.Services
         }
         public Task<string> ProcessOutputFormat(string outputFormat, string agoraFormat, EntityLog log)
         {
-            return FileUtils.ProcessOutputFormat(outputFormat, agoraFormat, log);
+            return LogFormater.ProcessOutputFormat(outputFormat, agoraFormat, log);
         }
         public void Dispose()
         {
