@@ -98,21 +98,23 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Never);
         }
 
-        [Fact]
-        public async Task GetSavedLogByIdAsync_ShouldReturnLog()
+        [Fact(DisplayName = "Get a Existing Original EntityLogs Should Return Success.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task GetSavedLogById_ShouldReturnLog()
         {
-            //// Arrange
-            //var id = Guid.NewGuid();
-            //var expectedLog = _fixture.Create<EntityLog>();
-            //_repositoryMock.Setup(x => x.GetByIdAsync(id))
-            //    .ReturnsAsync(expectedLog);
+            // Arrange
+            var entityLog = _entityLogFixture.GenerateValidEntityLog(1).FirstOrDefault();
 
-            //// Act
-            //var result = await _service.GetSavedLogByIdAsync(id);
+            _entityLogFixture.Mocker
+                .GetMock<IEntityLogService>()
+                .Setup(c => c.GetSavedLogById(entityLog.Id))
+            .ReturnsAsync(entityLog);
 
-            //// Assert
-            //Assert.Equal(expectedLog, result);
-            //_repositoryMock.Verify(x => x.GetByIdAsync(id), Times.Once);
+            // Act
+            var result = await _entityLogService.GetSavedLogById(entityLog.Id);
+
+            // Assert
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Never);
         }
 
         [Fact]
@@ -188,7 +190,7 @@ namespace XUnitTestCDNAPI
             //};
             //var transformedContent = "transformed content";
 
-            //_repositoryMock.Setup(x => x.GetByIdAsync(id))
+            //_repositoryMock.Setup(x => x.GetById(id))
             //    .ReturnsAsync(originalLog);
             //_transformerMock.Setup(x => x.Transform(originalLog.MinhaCDNLog))
             //    .Returns(transformedContent);

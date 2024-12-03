@@ -23,6 +23,7 @@ namespace XUnitTestCDNAPI.Fixtures
         public IEnumerable<EntityLog> GenerateValidSavedEntityLog(int quantityToGenerate)
         {
             var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.Id, f => f.Random.Guid())
                .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
                .RuleFor(c => c.AgoraLog, f => string.Empty)
                .RuleFor(c => c.CreatedAt, f => f.Date.Past(2))

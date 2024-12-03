@@ -28,18 +28,18 @@ namespace CDNAPI.Services
 
         public async Task<EntityLog> GetSavedLogById(Guid id)
         {
-            return await _entityLogRepository.GetByIdAsync(id);
+            return await _entityLogRepository.GetById(id);
         }
         
         public async Task<String> GetTransformedLogById(Guid id)
         {
-            var log = await _entityLogRepository.GetByIdAsync(id);
+            var log = await _entityLogRepository.GetById(id);
             return log.AgoraLog;
         }
         
         public async Task<String> GetOriginalAndTransformedLogById(Guid id)
         {
-            var log = await _entityLogRepository.GetByIdAsync(id);
+            var log = await _entityLogRepository.GetById(id);
             return CombineLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
@@ -61,7 +61,7 @@ namespace CDNAPI.Services
 
         public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
         {
-            var entitylog = await _entityLogRepository.GetByIdAsync(id);
+            var entitylog = await _entityLogRepository.GetById(id);
 
             var agoraLog = LogTransformer.Transform(entitylog.MinhaCDNLog);
 

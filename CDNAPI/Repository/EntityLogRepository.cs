@@ -13,7 +13,7 @@ namespace CDNAPI.Repository
         public EntityLogRepository(ApiDbContext apiDbContext) : base(apiDbContext){}
       
 
-        public async Task<EntityLog> GetByIdAsync(Guid id)
+        public async Task<EntityLog> GetById(Guid id)
         {
             return await _apiDbContext.EntityLogs.FindAsync(id);
         }

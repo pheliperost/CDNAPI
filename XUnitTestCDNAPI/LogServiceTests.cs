@@ -54,7 +54,7 @@
 //            // Arrange
 //            var id = Guid.NewGuid();
 //            var log = new Log { Id = id, OriginalContent = "test content" };
-//            _repositoryMock.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(log);
+//            _repositoryMock.Setup(x => x.GetById(id)).ReturnsAsync(log);
 
 //            // Act
 //            var result = await _logService.GetSavedLogByIdAsync(id);
