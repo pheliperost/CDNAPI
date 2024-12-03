@@ -30,20 +30,6 @@ namespace XUnitTestCDNAPI
             _entityLogService = _entityLogFixture.GetService();
         }
 
-        [Fact(DisplayName = "Retrieve all EntityLogs Should Return Success.")]
-        [Trait("Category", "EntityLog Service")]
-        public async Task GetSavedLogsAsync_ShouldReturnAllLogs()
-        {
-            // Arrange
-            var expectedLogs = _entityLogFixture.GenerarateAValidSavedEntityLog(10);
-
-            // Act
-            var result = await _entityLogService.GetSavedLogsAsync();
-
-            // Assert
-            Assert.Equal(expectedLogs, result);
-            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetAllAsync(), Times.AtLeastOnce);
-        }
 
         [Fact(DisplayName = "Adding a valid EntityLog Should Return Success")]
         [Trait("Categoria", "EntityLog Service")]
@@ -75,6 +61,28 @@ namespace XUnitTestCDNAPI
 
         }
 
+
+        [Fact(DisplayName = "Retrieve all EntityLogs Should Return Success.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task GetSavedLogsAsync_ShouldReturnAllLogs()
+        {
+            // Arrange
+            var expectedLogs = _entityLogFixture.GenerarateAValidSavedEntityLog(10);
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>()
+                .Setup(x => x.GetAllAsync())
+                .ReturnsAsync(expectedLogs);
+
+            // Act
+            var result = await _entityLogService.GetSavedLogsAsync();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expectedLogs.Count(), result.Count());
+            Assert.Equal(expectedLogs, result);
+            Assert.All(result, log => Assert.IsType<EntityLog>(log));
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetAllAsync(), Times.Once);
+        }
+               
         [Fact]
         public async Task GetSavedLogByIdAsync_ShouldReturnLog()
         {
