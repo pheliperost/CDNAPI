@@ -20,12 +20,10 @@ namespace XUnitTestCDNAPI
     public class LogFormaterTests
     {
         private readonly EntityLogFixture _entityLogFixture;
-        private readonly EntityLogService _entityLogService;
         
         public LogFormaterTests(EntityLogFixture entityLogFixture)
         {
             _entityLogFixture = entityLogFixture;
-            _entityLogService = _entityLogFixture.GetService();
         }
 
 
@@ -93,5 +91,37 @@ namespace XUnitTestCDNAPI
             Assert.NotNull(result);
             Assert.Equal(agoraLog, result);
         }
+
+        [Fact(DisplayName = "ProcessOutputFormat Should Return Invalid Option With Error.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task EntityLogService_ProcessOutputFormat_ShouldReturnError()
+        {
+            //Arrange
+            var validEntity = _entityLogFixture.GenerateValidEntityLog();
+            var minhaCDNlog = validEntity.MinhaCDNLog;
+            var agoraLog = validEntity.AgoraLog;
+
+
+            var outputFormat = "opcaoinvalida";
+
+            var fileUtilsMock = new Mock<IFileUtilsService>();
+            fileUtilsMock.Setup(f => f.SaveToFileAsync(agoraLog)).ReturnsAsync(agoraLog);
+
+            // Act
+            Exception exception = null;
+            try
+            {
+                var result = await LogFormater.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            
+            // Assert
+            Assert.IsType<ArgumentException>(exception);
+            Assert.Contains("Formato de saída inválido.", exception.Message);
+        }
+
     }
 }
