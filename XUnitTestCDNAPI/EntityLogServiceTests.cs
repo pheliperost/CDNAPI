@@ -36,7 +36,7 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_AddingNewValidEntityLog_ShouldReturnSuccess()
         {
             // Arrange
-            var entityLog = _entityLogFixture.GenerarateValidEntityLog(1).FirstOrDefault();
+            var entityLog = _entityLogFixture.GenerateValidSavedEntityLog(1).FirstOrDefault();
 
             // Act
             var result =  await _entityLogService.AddEntityLog(entityLog);
@@ -51,7 +51,7 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_AddingNewinvalidEntityLog_ShouldReturnError()
         {
             // Arrange
-            var entityLog = _entityLogFixture.GenerarateInvalidEntityLog();
+            var entityLog = _entityLogFixture.GenerateInvalidEntityLog();
 
             // Act
             await Assert.ThrowsAsync<ValidationException>(() => _entityLogService.AddEntityLog(entityLog));
@@ -60,21 +60,42 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(r => r.Save(entityLog), Times.Never);
 
         }
-
-
+        
         [Fact(DisplayName = "Transform a Original EntityLogs Should Return Success.")]
         [Trait("Category", "EntityLog Service")]
         public async Task EntityLogService_UpdateValidEntityLog_ShouldReturnSuccess()
         {
             // Arrange
-            var originalLog = _entityLogFixture.GenerarateAValidSavedEntityLog(1).FirstOrDefault();
+            var originalLog = _entityLogFixture.GenerateValidSavedEntityLog(1).FirstOrDefault();
 
             // Act
             var result = await _entityLogService.UpdateEntityLog(originalLog);
 
-            // Assert
-            
+            // Assert            
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Once);
+        }
+
+        [Fact(DisplayName = "Transform a Invalid Original EntityLogs Should Return Error.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task EntityLogService_UpdateAInvalidEntityLog_ShouldReturnError()
+        {
+            // Arrange
+            var originalLog = _entityLogFixture.GenerateInvalidSavedEntityLog();
+
+            // Act 
+            Exception exception = null;
+            try
+            {
+                await _entityLogService.UpdateEntityLog(originalLog);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert            
+            Assert.IsType<ValidationException>(exception);
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Never);
         }
 
         [Fact(DisplayName = "Retrieve all EntityLogs Should Return Success.")]
@@ -82,7 +103,7 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_GetSavedLogsAsync_ShouldReturnAllLogs()
         {
             // Arrange
-            var expectedLogs = _entityLogFixture.GenerarateAValidSavedEntityLog(10);
+            var expectedLogs = _entityLogFixture.GenerateValidSavedEntityLog(10);
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>()
                 .Setup(x => x.GetAllAsync())
                 .ReturnsAsync(expectedLogs);

@@ -20,7 +20,7 @@ namespace XUnitTestCDNAPI.Fixtures
         public RequestLogFixture _requestLogFixture;
         public AutoMocker Mocker;
 
-        public IEnumerable<EntityLog> GenerarateAValidSavedEntityLog(int quantityToGenerate)
+        public IEnumerable<EntityLog> GenerateValidSavedEntityLog(int quantityToGenerate)
         {
             var entiLogs = new Faker<EntityLog>()
                .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
@@ -32,8 +32,13 @@ namespace XUnitTestCDNAPI.Fixtures
             return entiLogs.Generate(quantityToGenerate);
         }
 
+        public EntityLog GenerateInvalidSavedEntityLog()
+        {
+            var entiLog = new EntityLog();
+            return entiLog;
+        }
 
-        public IEnumerable<EntityLog> GenerarateValidEntityLog(int quantityToGenerate)
+        public IEnumerable<EntityLog> GenerateInvalidSavedEntityLog(int quantityToGenerate)
         {
             var entiLogs = new Faker<EntityLog>()
                .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
@@ -45,7 +50,19 @@ namespace XUnitTestCDNAPI.Fixtures
             return entiLogs.Generate(quantityToGenerate);
         }
 
-        public EntityLog GenerarateInvalidEntityLog()
+        public IEnumerable<EntityLog> GenerateValidEntityLog(int quantityToGenerate)
+        {
+            var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
+               .RuleFor(c => c.AgoraLog, f => string.Empty)
+               .RuleFor(c => c.CreatedAt, f => f.Date.Past(2))
+               .RuleFor(c => c.URL, f => f.Internet.Url() + "/" + f.Random.AlphaNumeric(5) + ".txt")
+               .RuleFor(c => c.FilePath, f => string.Empty);
+
+            return entiLogs.Generate(quantityToGenerate);
+        }
+
+        public EntityLog GenerateInvalidEntityLog()
         {
             var entiLogs = new Faker<EntityLog>()
                .RuleFor(c => c.MinhaCDNLog, string.Empty)
