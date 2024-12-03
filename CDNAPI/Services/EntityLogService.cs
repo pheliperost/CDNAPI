@@ -81,6 +81,21 @@ namespace CDNAPI.Services
             return result;
         }
 
+        public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
+        {
+            var entitylog = await _entityLogRepository.GetByIdAsync(id);
+
+            var agoraLog = _logTransformer.Transform(entitylog.MinhaCDNLog);
+
+            entitylog.AgoraLog = agoraLog;
+
+            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraLog, entitylog);
+
+            await UpdateEntityLog(entitylog);
+
+            return result;
+        }
+
         public async Task<EntityLog> AddEntityLog(EntityLog newEntityLog)
         {
             if (!ExecuteValidation(new EntityLogValidation(), newEntityLog))
@@ -89,6 +104,17 @@ namespace CDNAPI.Services
             }
 
             var entityLogAdded = await _entityLogRepository.Save(newEntityLog);
+            return entityLogAdded;
+        }
+
+        public async Task<EntityLog> UpdateEntityLog(EntityLog newEntityLog)
+        {
+            if (!ExecuteValidation(new EntityLogValidation(), newEntityLog))
+            {
+                throw new ValidationException("Não foi possível inserir, pois, há dados inválidos.");
+            }
+
+            var entityLogAdded = await _entityLogRepository.UpdateAsync(newEntityLog);
             return entityLogAdded;
         }
 
@@ -103,33 +129,6 @@ namespace CDNAPI.Services
             };
         }
 
-        public async Task<String> TransformLogSavedById(Guid id, string outputFormat)
-        {
-            string result = "";
-
-            var entitylog = await _entityLogRepository.GetByIdAsync(id);
-
-            var agoraLog = _logTransformer.Transform(entitylog.MinhaCDNLog);
-
-
-            entitylog.AgoraLog = agoraLog;
-
-            if (outputFormat == "file")
-            {
-                entitylog.FilePath = await _fileUtilsService.SaveToFileAsync(agoraLog);
-                result = entitylog.FilePath;
-            }
-
-            if (outputFormat == "response")
-            {
-                result = entitylog.AgoraLog;
-            }
-
-            await _entityLogRepository.UpdateAsync(entitylog);
-
-            return result;
-        }
-
         private void ValidateInput(string url, string outputFormat)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -138,7 +137,6 @@ namespace CDNAPI.Services
             if (string.IsNullOrWhiteSpace(outputFormat))
                 throw new ArgumentException("Formato de saída não pode ser vazio ou nulo.", nameof(outputFormat));
         }
-
 
         private string CombineLogs(string minhaCDNLog, string agoraLog)
         {
