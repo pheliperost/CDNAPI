@@ -69,6 +69,9 @@ namespace CDNAPI.Services
         {
             var entitylog = await _entityLogRepository.GetById(id);
 
+            if (entitylog == null)
+                throw new InvalidOperationException($"Registro com ID {id} não encontrado.");
+
             var agoraLog = _logOperationsService.TransformLog(entitylog.MinhaCDNLog);
 
             entitylog.AgoraLog = agoraLog;
@@ -95,7 +98,7 @@ namespace CDNAPI.Services
         {
             if (!ExecuteValidation(new EntityLogValidation(), newEntityLog))
             {
-                throw new ValidationException("Não foi possível inserir, pois, há dados inválidos.");
+                throw new ValidationException("Não foi possível transformar o log, pois, há dados inválidos.");
             }
 
             var entityLogAdded = await _entityLogRepository.UpdateAsync(newEntityLog);
@@ -121,16 +124,7 @@ namespace CDNAPI.Services
             if (string.IsNullOrWhiteSpace(outputFormat))
                 throw new ArgumentException("Formato de saída não pode ser vazio ou nulo.", nameof(outputFormat));
         }
-
-        private string CombineLogs(string minhaCDNLog, string agoraLog)
-        {
-            if (string.IsNullOrEmpty(agoraLog))
-            {
-                return minhaCDNLog;
-            }
-            return $"{minhaCDNLog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
-        }
-
+        
         public void Dispose()
         {
             _entityLogRepository?.Dispose();

@@ -24,6 +24,11 @@ namespace CDNAPI.Controllers
         [HttpPost("TransformToAgoraFormatByRequest")]
         public async Task<IActionResult> TransformLog([FromBody] RequestLogViewModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _IEntityLogService.TransformLogFromRequest(request.URL,  request.OutputFormat);
 
             return Ok(result);
@@ -32,6 +37,11 @@ namespace CDNAPI.Controllers
         [HttpPost("TransformLogSavedById")]
         public async Task<IActionResult> TransformLogSaved([FromBody] TransformSavedViewModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _IEntityLogService.TransformLogSavedById(request.Id, request.OutputFormat);
 
             return Ok(result);

@@ -13,14 +13,12 @@ using Moq;
 namespace XUnitTestCDNAPI.Fixtures
 {
     [CollectionDefinition(nameof(EntityLogCollection))]
-    public class EntityLogCollection : ICollectionFixture<EntityLogFixture>, 
-        ICollectionFixture<RequestLogFixture>
+    public class EntityLogCollection : ICollectionFixture<EntityLogFixture> 
     { }
     public class EntityLogFixture : IDisposable
     {
         public EntityLogService _entityLogService;
         public LogOperationsService _logOperationsService;
-        public RequestLogFixture _requestLogFixture;
         public AutoMocker Mocker;
 
 

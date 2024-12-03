@@ -19,14 +19,11 @@ namespace XUnitTestCDNAPI
     public class EntityLogServiceTests
     {
         private readonly EntityLogFixture _entityLogFixture;
-        private readonly RequestLogFixture _requestLogFixture;
         private readonly EntityLogService _entityLogService;
         
-        public EntityLogServiceTests(EntityLogFixture entityLogFixture,
-                                    RequestLogFixture requestLogFixture)
+        public EntityLogServiceTests(EntityLogFixture entityLogFixture)
         {
             _entityLogFixture = entityLogFixture;
-            _requestLogFixture = requestLogFixture;
             _entityLogService = _entityLogFixture.GetService();
         }
 

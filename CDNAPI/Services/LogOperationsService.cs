@@ -26,7 +26,26 @@ namespace CDNAPI.Services
             }
 
             var client = _httpClientFactory.CreateClient();
-            return await client.GetStringAsync(url);
+
+            try
+            {
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Erro ao buscar URL: {response.StatusCode} - {response.ReasonPhrase}");
+                }
+
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException("Erro ao realizar a requisição HTTP. Verifique a URL e a conexão de rede.", e);
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new TimeoutException("Erro de tempo limite: A requisição foi cancelada ou expirou.", e);
+            }
         }
 
         public async Task<string> SaveToFileAsync(string content)
@@ -80,7 +99,9 @@ namespace CDNAPI.Services
             AppendHeader(output);
 
             var lines = input.Split('\n');
-            foreach (var line in lines)
+            var nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+
+            foreach (var line in nonEmptyLines)
             {
                 try
                 {
@@ -123,15 +144,15 @@ namespace CDNAPI.Services
                 return null;
             }
             var httpMethod = httpMethodParts[0].Trim('"');
-            var uriPath = httpMethodParts[1];
+            var urlPath = httpMethodParts[1];
 
             if (!double.TryParse(parts[4], out double timeTakenRaw))
             {
-                return null;
+                throw new FormatException("O valor de tempo fornecido não está em um formato numérico válido.");
             }
             var timeTaken = Math.Round(timeTakenRaw);
 
-            return $"\"MINHA CDN\" {httpMethod} {statusCode} {uriPath} {timeTaken} {responseSize} {cacheStatus}";
+            return $"\"MINHA CDN\" {httpMethod} {statusCode} {urlPath} {timeTaken} {responseSize} {cacheStatus}";
         }
 
         private string NormalizeCacheStatus(string cacheStatus)
