@@ -123,5 +123,48 @@ namespace XUnitTestCDNAPI
             Assert.Contains("Formato de saída inválido.", exception.Message);
         }
 
+
+        [Fact(DisplayName = "Transforming a Valid Log Should Return Return With Success.")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLog_ShouldReturnWithSuccess()
+        {
+            //Arrange
+            var minhaCDNlog = _entityLogFixture.GenerateValidMinhaCDNLog();
+            var expectedAgoraLog = _entityLogFixture.GenerateValidMinhaCDNLogExpected(); 
+
+            // Act
+            var agoraLog =  _logOperationsService.TransformLog(minhaCDNlog);
+            agoraLog = RemoveDateTimeLineAndNormalize(agoraLog);
+            expectedAgoraLog = RemoveDateTimeLineAndNormalize(expectedAgoraLog);
+
+            // Assert
+            Assert.NotNull(agoraLog);
+
+            Assert.Equal(agoraLog, expectedAgoraLog);
+        }
+
+
+        private static string RemoveDateTimeLineAndNormalize(string logText)
+        {
+            if (string.IsNullOrEmpty(logText))
+            {
+                return string.Empty;
+            }
+
+            var lines = logText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var filteredLines = RemoveDateTimeLine(lines);
+            var joinedText = string.Join(Environment.NewLine, filteredLines);
+            return NormalizeLineEndings(joinedText);
+        }
+
+        private static IEnumerable<string> RemoveDateTimeLine(string[] lines)
+        {
+            return lines.Where((line, index) => index != 1);
+        }
+
+        private static string NormalizeLineEndings(string text)
+        {
+            return text.Replace("\r", "").Replace("\n", "");
+        }
     }
 }
