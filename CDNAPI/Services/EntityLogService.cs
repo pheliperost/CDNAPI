@@ -34,6 +34,10 @@ namespace CDNAPI.Services
         public async Task<String> GetTransformedLogById(Guid id)
         {
             var log = await _entityLogRepository.GetById(id);
+
+            if (log == null)
+                throw new InvalidOperationException($"Registro não encontrado.");
+
             return log.AgoraLog;
         }
         

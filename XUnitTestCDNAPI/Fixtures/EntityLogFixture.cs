@@ -39,33 +39,36 @@ namespace XUnitTestCDNAPI.Fixtures
             return entiLog;
         }
 
-        public IEnumerable<EntityLog> GenerateInvalidSavedEntityLog(int quantityToGenerate)
+        public EntityLog GenerateValidSavedEntityLog()
         {
             var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.Id, f => f.Random.Guid())
                .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
                .RuleFor(c => c.AgoraLog, f => string.Empty)
                .RuleFor(c => c.CreatedAt, f => f.Date.Past(2))
                .RuleFor(c => c.URL, f => f.Internet.Url() + "/" + f.Random.AlphaNumeric(5) + ".txt")
                .RuleFor(c => c.FilePath, f => string.Empty);
 
-            return entiLogs.Generate(quantityToGenerate);
+            return entiLogs;
         }
 
-        public IEnumerable<EntityLog> GenerateValidEntityLog(int quantityToGenerate)
+        public EntityLog GenerateValidEntityLog()
         {
             var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.Id, f => f.Random.Guid())
                .RuleFor(c => c.MinhaCDNLog, f => f.Random.AlphaNumeric(10))
-               .RuleFor(c => c.AgoraLog, f => string.Empty)
+               .RuleFor(c => c.AgoraLog, f => f.Random.AlphaNumeric(10))
                .RuleFor(c => c.CreatedAt, f => f.Date.Past(2))
                .RuleFor(c => c.URL, f => f.Internet.Url() + "/" + f.Random.AlphaNumeric(5) + ".txt")
-               .RuleFor(c => c.FilePath, f => string.Empty);
+               .RuleFor(c => c.FilePath, f => f.System.FilePath()+f.Date.Random.ToString()+".txt");
 
-            return entiLogs.Generate(quantityToGenerate);
+            return entiLogs;
         }
 
         public EntityLog GenerateInvalidEntityLog()
         {
             var entiLogs = new Faker<EntityLog>()
+               .RuleFor(c => c.Id, f => f.Random.Guid())
                .RuleFor(c => c.MinhaCDNLog, string.Empty)
                .RuleFor(c => c.AgoraLog,  string.Empty)
                .RuleFor(c => c.CreatedAt, DateTime.MinValue)

@@ -61,7 +61,7 @@ namespace XUnitTestCDNAPI
 
         }
         
-        [Fact(DisplayName = "Transform a Original EntityLogs Should Return Success.")]
+        [Fact(DisplayName = "Transform a Original EntityLog Should Return Success.")]
         [Trait("Category", "EntityLog Service")]
         public async Task EntityLogService_UpdateValidEntityLog_ShouldReturnSuccess()
         {
@@ -75,7 +75,7 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Once);
         }
 
-        [Fact(DisplayName = "Transform a Invalid Original EntityLogs Should Return Error.")]
+        [Fact(DisplayName = "Transform a Invalid Original EntityLog Should Return Error.")]
         [Trait("Category", "EntityLog Service")]
         public async Task EntityLogService_UpdateAInvalidEntityLog_ShouldReturnError()
         {
@@ -98,12 +98,12 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Never);
         }
 
-        [Fact(DisplayName = "Get a Existing Original EntityLogs Should Return Success.")]
+        [Fact(DisplayName = "Get a Existing Original EntityLog Should Return Success.")]
         [Trait("Category", "EntityLog Service")]
-        public async Task GetSavedLogById_ShouldReturnLog()
+        public async Task EntityLogService_GetSavedLogById_ShouldReturnSuccess()
         {
             // Arrange
-            var entityLog = _entityLogFixture.GenerateValidEntityLog(1).FirstOrDefault();
+            var entityLog = _entityLogFixture.GenerateValidEntityLog();
 
             _entityLogFixture.Mocker
                 .GetMock<IEntityLogService>()
@@ -114,95 +114,33 @@ namespace XUnitTestCDNAPI
             var result = await _entityLogService.GetSavedLogById(entityLog.Id);
 
             // Assert
-            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Never);
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
         }
 
-        [Fact]
-        public async Task GetTransformedLogsAsync_ShouldReturnOnlyTransformedLogs()
+        [Fact(DisplayName = "Get a Existing Transformed EntityLog Should Return Success.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task EntityLogService_GetTransformedLogById_ShouldReturnSuccess()
         {
-        //    // Arrange
-        //    var logs = new List<EntityLog>
-        //{
-        //    new EntityLog { AgoraLog = "transformed1" },
-        //    new EntityLog { AgoraLog = null },
-        //    new EntityLog { AgoraLog = "transformed2" }
-        //};
-        //    _repositoryMock.Setup(x => x.GetAllAsync())
-        //        .ReturnsAsync(logs);
+            // Arrange
+            var entityLog = _entityLogFixture.GenerateValidEntityLog();
 
-        //    // Act
-        //    var result = await _service.GetTransformedLogsAsync();
+            _entityLogFixture.Mocker
+                .GetMock<IEntityLogService>()
+                .Setup(c => c.GetTransformedLogById(entityLog.Id))
+            .ReturnsAsync(entityLog.AgoraLog);
 
-        //    // Assert
-        //    Assert.Equal(2, result.Count());
-        //    Assert.Contains("transformed1", result);
-        //    Assert.Contains("transformed2", result);
+            _entityLogFixture.Mocker
+                .GetMock<IEntityLogRepository>()
+                .Setup(c => c.GetById(entityLog.Id))
+            .ReturnsAsync(entityLog);
+
+            // Act
+            var result = await _entityLogService.GetTransformedLogById(entityLog.Id);
+
+            // Assert
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
         }
 
-        [Fact]
-        public async Task TransformLogFromRequest_WithFileOutput_ShouldReturnFilePath()
-        {
-            //// Arrange
-            //var url = "http://example.com/log.txt";
-            //var minhaCDNLog = "original content";
-            //var transformedLog = "transformed content";
-
-            //_transformerMock.Setup(x => x.Transform(minhaCDNLog))
-            //    .Returns(transformedLog);
-
-            //// Act
-            //var result = await _service.TransformLogFromRequest(url, "file");
-
-            //// Assert
-            //Assert.Contains("ConvertedLogs\\log_", result);
-            //Assert.EndsWith(".txt", result);
-            //_repositoryMock.Verify(x => x.Save(It.IsAny<EntityLog>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task TransformLogFromRequest_WithResponseOutput_ShouldReturnTransformedContent()
-        {
-            //// Arrange
-            //var url = "http://example.com/log.txt";
-            //var minhaCDNLog = "original content";
-            //var transformedLog = "transformed content";
-
-            //_transformerMock.Setup(x => x.Transform(minhaCDNLog))
-            //    .Returns(transformedLog);
-
-            //// Act
-            //var result = await _service.TransformLogFromRequest(url, "response");
-
-            //// Assert
-            //Assert.Equal(transformedLog, result);
-            //_repositoryMock.Verify(x => x.Save(It.IsAny<EntityLog>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task TransformLogSavedById_WithFileOutput_ShouldReturnFilePath()
-        {
-            //// Arrange
-            //var id = Guid.NewGuid();
-            //var originalLog = new EntityLog
-            //{
-            //    Id = id,
-            //    MinhaCDNLog = "original content"
-            //};
-            //var transformedContent = "transformed content";
-
-            //_repositoryMock.Setup(x => x.GetById(id))
-            //    .ReturnsAsync(originalLog);
-            //_transformerMock.Setup(x => x.Transform(originalLog.MinhaCDNLog))
-            //    .Returns(transformedContent);
-
-            //// Act
-            //var result = await _service.TransformLogSavedById(id, "file");
-
-            //// Assert
-            //Assert.Contains("ConvertedLogs\\log_", result);
-            //Assert.EndsWith(".txt", result);
-            //_repositoryMock.Verify(x => x.UpdateAsync(It.IsAny<EntityLog>()), Times.Once);
-        }
 
         [Theory]
         [InlineData("original", null, "original")]
