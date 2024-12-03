@@ -21,7 +21,6 @@ namespace CDNAPI.Configuration
             services.AddScoped<ApiDbContext>();
             services.AddScoped<IEntityLogRepository, EntityLogRepository>();
             services.AddScoped<IEntityLogService, EntityLogService>();
-            services.AddScoped<ILogTransformer, LogTransformer>();
 
             services.AddScoped<IFileUtilsService,FileUtilsService>();
 

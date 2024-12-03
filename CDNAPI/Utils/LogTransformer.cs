@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace CDNAPI.Utils
 {
 
-    public class LogTransformer : ILogTransformer
+    public static class LogTransformer 
     {
-        public string Transform(string input)
+        public static string Transform(string input)
         {
             var lines = input.Split('\n');
             var output = new StringBuilder();

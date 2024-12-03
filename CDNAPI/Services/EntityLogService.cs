@@ -15,44 +15,22 @@ namespace CDNAPI.Services
     public class EntityLogService : BaseService, IEntityLogService
     {
         IEntityLogRepository _entityLogRepository;
-        ILogTransformer _logTransformer;
         IFileUtilsService _fileUtilsService;
         
 
         public EntityLogService(IEntityLogRepository entityLogRepository,
-                                ILogTransformer logTransformer,
                                 IFileUtilsService fileUtils)
         {
             _entityLogRepository = entityLogRepository;
-            _logTransformer = logTransformer;
             _fileUtilsService = fileUtils;
         }
         
-
-        public Task<EntityLog> GetSavedLogByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<EntityLog>> GetSavedLogsAsync()
-        {
-            return await _entityLogRepository.GetAllAsync();
-        }
 
         public async Task<EntityLog> GetSavedLogByIdAsync(Guid id)
         {
             return await _entityLogRepository.GetByIdAsync(id);
         }
-
-        public async Task<IEnumerable<String>> GetTransformedLogsAsync()
-        {
-            var logs = await _entityLogRepository.GetAllAsync();
-            
-                logs = logs.Where(l => !string.IsNullOrEmpty(l.AgoraLog));
-
-            return logs.Select(p => p.AgoraLog).ToList();
-        }
-
+        
         public async Task<String> GetTransformedLogByIdAsync(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);
@@ -70,7 +48,7 @@ namespace CDNAPI.Services
             ValidateInput(url, outputFormat);
 
             var minhaCDNLog = await _fileUtilsService.FetchLogAsync(url);
-            var agoraFormat = _logTransformer.Transform(minhaCDNLog);
+            var agoraFormat = LogTransformer.Transform(minhaCDNLog);
 
             var entitylog = CreateEntityLog(url, minhaCDNLog, agoraFormat);
 
@@ -85,7 +63,7 @@ namespace CDNAPI.Services
         {
             var entitylog = await _entityLogRepository.GetByIdAsync(id);
 
-            var agoraLog = _logTransformer.Transform(entitylog.MinhaCDNLog);
+            var agoraLog = LogTransformer.Transform(entitylog.MinhaCDNLog);
 
             entitylog.AgoraLog = agoraLog;
 

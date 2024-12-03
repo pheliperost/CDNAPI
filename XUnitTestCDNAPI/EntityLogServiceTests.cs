@@ -98,27 +98,6 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.UpdateAsync(originalLog), Times.Never);
         }
 
-        [Fact(DisplayName = "Retrieve all EntityLogs Should Return Success.")]
-        [Trait("Category", "EntityLog Service")]
-        public async Task EntityLogService_GetSavedLogsAsync_ShouldReturnAllLogs()
-        {
-            // Arrange
-            var expectedLogs = _entityLogFixture.GenerateValidSavedEntityLog(10);
-            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>()
-                .Setup(x => x.GetAllAsync())
-                .ReturnsAsync(expectedLogs);
-
-            // Act
-            var result = await _entityLogService.GetSavedLogsAsync();
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedLogs.Count(), result.Count());
-            Assert.Equal(expectedLogs, result);
-            Assert.All(result, log => Assert.IsType<EntityLog>(log));
-            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetAllAsync(), Times.Once);
-        }
-
         [Fact]
         public async Task GetSavedLogByIdAsync_ShouldReturnLog()
         {

@@ -36,23 +36,7 @@ namespace CDNAPI.Controllers
 
             return Ok(result);
         }
-
-        //verificar eventual melhoria no retorno
-        [HttpGet("GetAllSavedLogs")]
-        public async Task<IActionResult> GetSavedLogs()
-        {
-            var logs = await _IEntityLogService.GetSavedLogsAsync();
-            return Ok(logs);
-        }
-
-        //verificar eventual melhoria no retorno
-        [HttpGet("GetAllTransformedLogs")]
-        public async Task<IActionResult> GetTransformedLogs()
-        {
-            var logs = await _IEntityLogService.GetTransformedLogsAsync();
-            return Ok(logs);
-        }
-
+        
         //log saved but not transformed
         [HttpGet("GetSavedLogById/{id}")]
         public async Task<IActionResult> GetSavedLogById([FromRoute] LogSearchViewModel viewModel)
