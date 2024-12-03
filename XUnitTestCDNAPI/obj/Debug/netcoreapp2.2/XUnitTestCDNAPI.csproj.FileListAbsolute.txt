@@ -1,4 +1,3 @@
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\CDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csprojAssemblyReference.cache
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csproj.CoreCompileInputs.cache
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.AssemblyInfoInputs.cache
@@ -10,8 +9,9 @@ D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAP
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.runtimeconfig.json
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.runtimeconfig.dev.json
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.dll
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.pdb
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\CDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\CDNAPI.pdb
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csproj.CopyComplete
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.pdb
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.pdb

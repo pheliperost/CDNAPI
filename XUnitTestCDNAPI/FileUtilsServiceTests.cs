@@ -2,7 +2,6 @@
 using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Services;
-using CDNAPI.Utils;
 using Moq;
 using Moq.AutoMock;
 using System;

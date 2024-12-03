@@ -6,7 +6,9 @@ using Moq.AutoMock;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.Http;
 using Xunit;
+using Moq;
 
 namespace XUnitTestCDNAPI.Fixtures
 {
@@ -17,9 +19,15 @@ namespace XUnitTestCDNAPI.Fixtures
     public class EntityLogFixture : IDisposable
     {
         public EntityLogService _entityLogService;
+        public LogOperationsService _logOperationsService;
         public RequestLogFixture _requestLogFixture;
         public AutoMocker Mocker;
 
+
+        public EntityLogFixture()
+        {
+            Mocker = new AutoMocker();
+        }
         public EntityLog GenerateValidSavedEntityLog()
         {
             var entiLogs = new Faker<EntityLog>()
@@ -67,9 +75,20 @@ namespace XUnitTestCDNAPI.Fixtures
 
         public EntityLogService GetService()
         {
-            Mocker = new AutoMocker();
             _entityLogService = Mocker.CreateInstance<EntityLogService>();
             return _entityLogService;
+        }
+        public LogOperationsService GetLogOperationsService()
+        {
+            var httpClientFactory = Mocker.GetMock<IHttpClientFactory>();
+
+            // Configure o mock do HttpClientFactory se necessário
+            httpClientFactory
+                .Setup(x => x.CreateClient(It.IsAny<string>()))
+                .Returns(new HttpClient());
+
+            _logOperationsService = Mocker.CreateInstance<LogOperationsService>();
+            return _logOperationsService;
         }
         public void Dispose()
         {

@@ -9,7 +9,6 @@ using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Repository;
 using CDNAPI.Services;
-using CDNAPI.Utils;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

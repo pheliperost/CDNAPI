@@ -3,7 +3,6 @@ using CDNAPI.Models;
 using CDNAPI.Models.Validations;
 using CDNAPI.Repository;
 using CDNAPI.Services;
-using CDNAPI.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,7 +21,7 @@ namespace CDNAPI.Configuration
             services.AddScoped<IEntityLogRepository, EntityLogRepository>();
             services.AddScoped<IEntityLogService, EntityLogService>();
 
-            services.AddScoped<IFileUtilsService,FileUtilsService>();
+            services.AddScoped<ILogOperationsService,LogOperationsService>();
 
             return services;
         }

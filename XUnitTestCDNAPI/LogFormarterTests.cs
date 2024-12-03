@@ -2,7 +2,6 @@
 using CDNAPI.Interfaces;
 using CDNAPI.Models;
 using CDNAPI.Services;
-using CDNAPI.Utils;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -20,10 +19,12 @@ namespace XUnitTestCDNAPI
     public class LogFormaterTests
     {
         private readonly EntityLogFixture _entityLogFixture;
+        private readonly LogOperationsService _logOperationsService;
         
         public LogFormaterTests(EntityLogFixture entityLogFixture)
         {
             _entityLogFixture = entityLogFixture;
+            _logOperationsService = _entityLogFixture.GetLogOperationsService();
         }
 
 
@@ -37,9 +38,8 @@ namespace XUnitTestCDNAPI
 
             var espectedResult = $"{minhaCDNlog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
 
-
             // Act
-            var result = LogFormater.AppendLogs(minhaCDNlog, agoraLog);
+            var result = _logOperationsService.AppendLogs(minhaCDNlog, agoraLog);
 
             // Assert
             Assert.NotNull(result);
@@ -58,11 +58,11 @@ namespace XUnitTestCDNAPI
 
             var outputFormat = "file";
 
-            var fileUtilsMock = new Mock<IFileUtilsService>();
+            var fileUtilsMock = new Mock<ILogOperationsService>();
             fileUtilsMock.Setup(f => f.SaveToFileAsync(agoraLog)).ReturnsAsync(validEntity.FilePath);
 
             // Act
-            var result = await LogFormater.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
+            var result = await _logOperationsService.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
 
             // Assert
             Assert.NotNull(result);
@@ -81,11 +81,11 @@ namespace XUnitTestCDNAPI
 
             var outputFormat = "response";
 
-            var fileUtilsMock = new Mock<IFileUtilsService>();
+            var fileUtilsMock = new Mock<ILogOperationsService>();
             fileUtilsMock.Setup(f => f.SaveToFileAsync(agoraLog)).ReturnsAsync(agoraLog);
 
             // Act
-            var result = await LogFormater.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
+            var result = await _logOperationsService.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
 
             // Assert
             Assert.NotNull(result);
@@ -104,14 +104,14 @@ namespace XUnitTestCDNAPI
 
             var outputFormat = "opcaoinvalida";
 
-            var fileUtilsMock = new Mock<IFileUtilsService>();
+            var fileUtilsMock = new Mock<ILogOperationsService>();
             fileUtilsMock.Setup(f => f.SaveToFileAsync(agoraLog)).ReturnsAsync(agoraLog);
 
             // Act
             Exception exception = null;
             try
             {
-                var result = await LogFormater.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
+                var result = await _logOperationsService.ProcessOutputFormat(outputFormat, agoraLog, validEntity);
             }
             catch (Exception ex)
             {

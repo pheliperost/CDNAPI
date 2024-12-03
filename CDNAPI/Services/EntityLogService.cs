@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.IO;
-using CDNAPI.Utils;
 using CDNAPI.Models.Validations;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,14 +14,14 @@ namespace CDNAPI.Services
     public class EntityLogService : BaseService, IEntityLogService
     {
         IEntityLogRepository _entityLogRepository;
-        IFileUtilsService _fileUtilsService;
+        ILogOperationsService _logOperationsService;
         
 
         public EntityLogService(IEntityLogRepository entityLogRepository,
-                                IFileUtilsService fileUtils)
+                                ILogOperationsService logOperations)
         {
             _entityLogRepository = entityLogRepository;
-            _fileUtilsService = fileUtils;
+            _logOperationsService = logOperations;
         }
         
 
@@ -47,19 +46,19 @@ namespace CDNAPI.Services
 
             if (log == null)
                 throw new InvalidOperationException($"Registro não encontrado.");
-            return LogFormater.AppendLogs(log.MinhaCDNLog, log.AgoraLog);
+            return _logOperationsService.AppendLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
         public async Task<string> TransformLogFromRequest(string url, string outputFormat)
         {
             ValidateInput(url, outputFormat);
 
-            var minhaCDNLog = await _fileUtilsService.FetchLogAsync(url);
-            var agoraFormat = LogFormater.TransformLog(minhaCDNLog);
+            var minhaCDNLog = await _logOperationsService.FetchLogAsync(url);
+            var agoraFormat = _logOperationsService.TransformLog(minhaCDNLog);
 
             var entitylog = CreateEntityLog(url, minhaCDNLog, agoraFormat);
 
-            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraFormat, entitylog);
+            string result = await _logOperationsService.ProcessOutputFormat(outputFormat, agoraFormat, entitylog);
 
             await AddEntityLog(entitylog);
 
@@ -70,11 +69,11 @@ namespace CDNAPI.Services
         {
             var entitylog = await _entityLogRepository.GetById(id);
 
-            var agoraLog = LogFormater.TransformLog(entitylog.MinhaCDNLog);
+            var agoraLog = _logOperationsService.TransformLog(entitylog.MinhaCDNLog);
 
             entitylog.AgoraLog = agoraLog;
 
-            string result = await _fileUtilsService.ProcessOutputFormat(outputFormat, agoraLog, entitylog);
+            string result = await _logOperationsService.ProcessOutputFormat(outputFormat, agoraLog, entitylog);
 
             await UpdateEntityLog(entitylog);
 
