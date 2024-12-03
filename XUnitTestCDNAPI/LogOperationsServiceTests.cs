@@ -16,12 +16,12 @@ using XUnitTestCDNAPI.Fixtures;
 namespace XUnitTestCDNAPI
 {
     [Collection(nameof(EntityLogCollection))]
-    public class LogFormaterTests
+    public class LogOperationsTests
     {
         private readonly EntityLogFixture _entityLogFixture;
         private readonly LogOperationsService _logOperationsService;
         
-        public LogFormaterTests(EntityLogFixture entityLogFixture)
+        public LogOperationsTests(EntityLogFixture entityLogFixture)
         {
             _entityLogFixture = entityLogFixture;
             _logOperationsService = _entityLogFixture.GetLogOperationsService();
@@ -29,8 +29,8 @@ namespace XUnitTestCDNAPI
 
 
         [Fact(DisplayName = "Append MinhaCDN and Agora Log Should Return Success.")]
-        [Trait("Category", "EntityLog Service")]
-        public void EntityLogService_AppendLogs_ShouldAppendBothLogsCorrectly()
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_AppendLogs_ShouldAppendBothLogsCorrectly()
         {
             //Arrange
             var minhaCDNlog = _entityLogFixture.GenerateValidEntityLog().MinhaCDNLog;
@@ -47,8 +47,8 @@ namespace XUnitTestCDNAPI
         }
 
         [Fact(DisplayName = "ProcessOutputFormat Should Return FilePath With Success.")]
-        [Trait("Category", "EntityLog Service")]
-        public async Task EntityLogService_ProcessOutputFormat_ShouldReturnFilePath()
+        [Trait("Category", "LogOperations Service")]
+        public async Task LogOperationsService_ProcessOutputFormat_ShouldReturnFilePath()
         {
             //Arrange
             var validEntity = _entityLogFixture.GenerateValidEntityLog();
@@ -70,8 +70,8 @@ namespace XUnitTestCDNAPI
         }
 
         [Fact(DisplayName = "ProcessOutputFormat Should Return Response With Success.")]
-        [Trait("Category", "EntityLog Service")]
-        public async Task EntityLogService_ProcessOutputFormat_ShouldReturnResponse()
+        [Trait("Category", "LogOperations Service")]
+        public async Task LogOperationsService_ProcessOutputFormat_ShouldReturnResponse()
         {
             //Arrange
             var validEntity = _entityLogFixture.GenerateValidEntityLog();
@@ -93,8 +93,8 @@ namespace XUnitTestCDNAPI
         }
 
         [Fact(DisplayName = "ProcessOutputFormat Should Return Invalid Option With Error.")]
-        [Trait("Category", "EntityLog Service")]
-        public async Task EntityLogService_ProcessOutputFormat_ShouldReturnError()
+        [Trait("Category", "LogOperations Service")]
+        public async Task LogOperationsService_ProcessOutputFormat_ShouldReturnError()
         {
             //Arrange
             var validEntity = _entityLogFixture.GenerateValidEntityLog();

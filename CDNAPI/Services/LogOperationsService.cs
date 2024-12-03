@@ -60,6 +60,15 @@ namespace CDNAPI.Services
                     throw new ArgumentException("Formato de saída inválido.", nameof(outputFormat));
             }
         }
+        public string AppendLogs(string minhaCDNLog, string agoraLog)
+        {
+            if (string.IsNullOrEmpty(agoraLog))
+            {
+                return minhaCDNLog;
+            }
+            return $"{minhaCDNLog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
+        }
+
         public string TransformLog(string input)
         {
             var lines = input.Split('\n');
@@ -91,14 +100,6 @@ namespace CDNAPI.Services
             return output.ToString();
         }
 
-        public string AppendLogs(string minhaCDNLog, string agoraLog)
-        {
-            if (string.IsNullOrEmpty(agoraLog))
-            {
-                return minhaCDNLog;
-            }
-            return $"{minhaCDNLog}{Environment.NewLine}{Environment.NewLine}{agoraLog}";
-        }
         public void Dispose()
         {
         }

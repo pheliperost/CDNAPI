@@ -82,7 +82,6 @@ namespace XUnitTestCDNAPI.Fixtures
         {
             var httpClientFactory = Mocker.GetMock<IHttpClientFactory>();
 
-            // Configure o mock do HttpClientFactory se necessário
             httpClientFactory
                 .Setup(x => x.CreateClient(It.IsAny<string>()))
                 .Returns(new HttpClient());
