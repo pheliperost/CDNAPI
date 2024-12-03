@@ -124,9 +124,9 @@ namespace XUnitTestCDNAPI
         }
 
 
-        [Fact(DisplayName = "Transforming a Valid Log Should Return Return With Success.")]
+        [Fact(DisplayName = "Transforming a Valid Log Should Return Success.")]
         [Trait("Category", "LogOperations Service")]
-        public void LogOperationsService_TransformLog_ShouldReturnWithSuccess()
+        public void LogOperationsService_TransformLog_ShouldReturnSuccess()
         {
             //Arrange
             var minhaCDNlog = _entityLogFixture.GenerateValidMinhaCDNLog();
@@ -141,6 +141,25 @@ namespace XUnitTestCDNAPI
             Assert.NotNull(agoraLog);
 
             Assert.Equal(agoraLog, expectedAgoraLog);
+        }
+
+        [Fact(DisplayName = "Transforming a invalid Log Should Return Error.")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLog_ShouldReturnError()
+        {
+            //Arrange
+            var minhaCDNlog = _entityLogFixture.GenerateValidMinhaCDNLog();
+            var expectedAgoraLog = _entityLogFixture.GenerateInvalidMinhaCDNLogExpected();
+
+            // Act
+            var agoraLog = _logOperationsService.TransformLog(minhaCDNlog);
+            agoraLog = RemoveDateTimeLineAndNormalize(agoraLog);
+            expectedAgoraLog = RemoveDateTimeLineAndNormalize(expectedAgoraLog);
+
+            // Assert
+            Assert.NotNull(agoraLog);
+
+            Assert.NotEqual(agoraLog, expectedAgoraLog);
         }
 
 

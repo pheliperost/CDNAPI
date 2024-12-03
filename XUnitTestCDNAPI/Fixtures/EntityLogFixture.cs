@@ -97,7 +97,24 @@ namespace XUnitTestCDNAPI.Fixtures
 ""MINHA CDN"" GET 301 /redirect 121 512 HIT";
         }
 
+        public string GenerateInvalidMinhaCDNLog()
+        {
+            return @"|200|HIT|""GET /missing-first-field HTTP/1.1""|100.2
+101|200|MISS|""POST /myImages HTTP/1.1""|
+INVALID|404|MISS|""GET /not-found HTTP/1.1""|142.9
+199|404|MISS|GET /no-quotes HTTP/1.1|142.9
+312|200|INVALIDATE|""GET /robots.txt HTTP/1.1""
+101|""POST /myImages HTTP/1.1""|319.4";
+        }
 
+        public string GenerateInvalidMinhaCDNLogExpected()
+        {
+            return @"#Version: 1.0
+#Date: 01/12/2024 18:38:10
+#Fields: provider http-method status-code uri-path time-taken response-size cache-status
+
+""MINHA CDN"" POST 200 /myImages 319 101 MISS";
+        }
 
 
         public EntityLogService GetService()
