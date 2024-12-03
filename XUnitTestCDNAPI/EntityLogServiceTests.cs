@@ -36,7 +36,7 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_AddingNewValidEntityLog_ShouldReturnSuccess()
         {
             // Arrange
-            var entityLog = _entityLogFixture.GenerateValidSavedEntityLog(1).FirstOrDefault();
+            var entityLog = _entityLogFixture.GenerateValidSavedEntityLog();
 
             // Act
             var result =  await _entityLogService.AddEntityLog(entityLog);
@@ -66,7 +66,7 @@ namespace XUnitTestCDNAPI
         public async Task EntityLogService_UpdateValidEntityLog_ShouldReturnSuccess()
         {
             // Arrange
-            var originalLog = _entityLogFixture.GenerateValidSavedEntityLog(1).FirstOrDefault();
+            var originalLog = _entityLogFixture.GenerateValidSavedEntityLog();
 
             // Act
             var result = await _entityLogService.UpdateEntityLog(originalLog);
@@ -141,6 +141,34 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
         }
 
+        [Fact(DisplayName = "Get a NonExisting Transformed EntityLog Should Return Error.")]
+        [Trait("Category", "EntityLog Service")]
+        public async Task EntityLogService_GetTransformedLogById_ShouldReturnError()
+        {
+            // Arrange
+            var entityLog = _entityLogFixture.GenerateValidEntityLog();
+
+            _entityLogFixture.Mocker
+                .GetMock<IEntityLogService>()
+                .Setup(c => c.GetTransformedLogById(entityLog.Id))
+            .ReturnsAsync(entityLog.AgoraLog);
+            
+            // Act 
+            Exception exception = null;
+            try
+            {
+                var result = await _entityLogService.GetTransformedLogById(entityLog.Id);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert            
+            Assert.IsType<InvalidOperationException>(exception);
+            Assert.Contains("Registro não encontrado.", exception.Message);
+            _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
+        }
 
         [Theory]
         [InlineData("original", null, "original")]
