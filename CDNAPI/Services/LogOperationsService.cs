@@ -73,7 +73,7 @@ namespace CDNAPI.Services
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new ArgumentException("O campo MinhaCDN está vazio.", nameof(input));
+                throw new ArgumentException("O parâmetro MinhaCDN está vazio.", nameof(input));
             }
 
             var output = new StringBuilder();
@@ -111,7 +111,7 @@ namespace CDNAPI.Services
             var parts = line.Split('|');
             if (parts.Length != 5)
             {
-                return null;
+                throw new ArgumentException("A linha de entrada deve conter exatamente 5 partes separadas por '|'.", nameof(line));
             }
 
             var responseSize = parts[0];

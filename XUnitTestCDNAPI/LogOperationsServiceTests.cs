@@ -139,7 +139,6 @@ namespace XUnitTestCDNAPI
 
             // Assert
             Assert.NotNull(agoraLog);
-
             Assert.Equal(agoraLog, expectedAgoraLog);
         }
 
@@ -158,10 +157,54 @@ namespace XUnitTestCDNAPI
 
             // Assert
             Assert.NotNull(agoraLog);
-
             Assert.NotEqual(agoraLog, expectedAgoraLog);
         }
 
+        [Fact(DisplayName = "Transforming a empty Log Should Return Exception Error.")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLog_ShouldReturnArgumentExceptionError()
+        {
+            //Arrange
+            var minhaCDNlog = "";
+            
+            // Act 
+            Exception exception = null;
+            try
+            {
+                var result = _logOperationsService.TransformLog(minhaCDNlog);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert            
+            Assert.IsType<ArgumentException>(exception);
+            Assert.Contains("O parâmetro MinhaCDN está vazio.", exception.Message);
+        }
+
+        [Fact(DisplayName = "Transforming a Log With an Invalid Layout Should Throw an Exception.")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLog_ShouldReturnFormatExceptionExceptionError()
+        {
+            //Arrange
+            var minhaCDNlog = @"312|200|HIT|HIT|HIT|""GET /robots.txt HTTP/1.1""|100.2";
+
+            // Act 
+            Exception exception = null;
+            try
+            {
+                var result = _logOperationsService.TransformLog(minhaCDNlog);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert            
+            Assert.IsType<FormatException>(exception);
+            Assert.Contains("A linha de entrada deve conter exatamente 5 partes separadas por '|'.", exception.Message);
+        }
 
         private static string RemoveDateTimeLineAndNormalize(string logText)
         {

@@ -170,28 +170,5 @@ namespace XUnitTestCDNAPI
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
         }
 
-        //[Fact(DisplayName = "Get a Existing Transformed EntityLog Should Return MinhaCDN and Agora Log with Success.")]
-        //[Trait("Category", "EntityLog Service")]
-        //public async Task EntityLogService_GetOriginalAndTransformedLogById_ShouldReturnSuccess()
-        //{
-        //    // Arrange
-        //    var entityLog = _entityLogFixture.GenerateValidEntityLog();
-
-        //    _entityLogFixture.Mocker
-        //        .GetMock<IEntityLogService>()
-        //        .Setup(c => c.GetTransformedLogById(entityLog.Id))
-        //    .ReturnsAsync(entityLog.AgoraLog);
-
-        //    _entityLogFixture.Mocker
-        //        .GetMock<IEntityLogRepository>()
-        //        .Setup(c => c.GetById(entityLog.Id))
-        //    .ReturnsAsync(entityLog);
-
-        //    // Act
-        //    var result = await _entityLogService.GetOriginalAndTransformedLogById(entityLog.Id);
-
-        //    // Assert
-        //    _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(x => x.GetById(entityLog.Id), Times.Once);
-        //}
     }
 }
