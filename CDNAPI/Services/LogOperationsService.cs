@@ -20,11 +20,6 @@ namespace CDNAPI.Services
         
         public async Task<string> FetchLogAsync(string url)
         {
-            if (_httpClientFactory == null)
-            {
-                throw new InvalidOperationException("EntityLogUtils não foi inicializado.");
-            }
-
             var client = _httpClientFactory.CreateClient();
 
             try

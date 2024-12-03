@@ -206,6 +206,85 @@ namespace XUnitTestCDNAPI
             Assert.Contains("A linha de entrada deve conter exatamente 5 partes separadas por '|'.", exception.Message);
         }
 
+        [Fact(DisplayName = "Transforming a Log With Invalid Number of Parts Should Throw ArgumentException")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLine_ShouldReturnArgumentException()
+        {
+            //Arrange
+            var invalidLine = "200|HIT|\"GET /robots.txt HTTP/1.1\"|100.2";
+
+            // Act
+            Exception exception = null;
+            try
+            {
+                var result = _logOperationsService.TransformLog(invalidLine);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert
+            Assert.IsType<FormatException>(exception);
+            Assert.Contains("A linha de entrada deve conter exatamente 5 partes separadas por '|'", exception.Message);
+        }
+
+        [Fact(DisplayName = "Transforming a Log With Invalid Time Format Should Throw FormatException")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLine_InvalidTimeFormat_ShouldThrowFormatException()
+        {
+            // Arrange
+            var invalidLine = "312|200|HIT|\"GET /robots.txt HTTP/1.1\"|not-a-number";
+
+            // Act
+            Exception exception = null;
+            try
+            {
+                var result = _logOperationsService.TransformLog(invalidLine);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            // Assert
+            Assert.IsType<FormatException>(exception);
+            Assert.Contains("O valor de tempo fornecido não está em um formato numérico válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Transforming a Log With Invalid HTTP Method Should Return Null")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLine_InvalidHttpMethod_ShouldReturnNull()
+        {
+            // Arrange
+            var invalidLine = "312|200|HIT|\"GET\"|100";
+
+            // Act
+            var result = _logOperationsService.TransformLog(invalidLine);
+                result = RemoveDateTimeLineAndNormalize(result);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Contains("#Version: 1.0#Fields: provider http-method status-code uri-path time-taken response-size cache-status", result);
+        }
+
+        [Fact(DisplayName = "Transforming a Valid Log Line Should Return Formatted String")]
+        [Trait("Category", "LogOperations Service")]
+        public void LogOperationsService_TransformLine_ValidInput_ShouldReturnFormattedString()
+        {
+            // Arrange
+            var validLine = "312|200|HIT|\"GET /robots.txt HTTP/1.1\"|100.2";
+
+            // Act
+            var result = _logOperationsService.TransformLog(validLine);
+                result = RemoveDateTimeLineAndNormalize(result);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Contains("\"MINHA CDN\" GET 200 /robots.txt 100 312 HIT", result);
+        }
+
+
         private static string RemoveDateTimeLineAndNormalize(string logText)
         {
             if (string.IsNullOrEmpty(logText))
