@@ -37,42 +37,26 @@ namespace CDNAPI.Controllers
             return Ok(result);
         }
         
-        //log saved but not transformed
-        [HttpGet("GetSavedLogById/{id}")]
-        public async Task<IActionResult> GetSavedLogById([FromRoute] LogSearchViewModel viewModel)
+        [HttpGet("SavedLogById/{id}")]
+        public async Task<IActionResult> GetSavedLogById(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var log = await _IEntityLogService.GetSavedLogByIdAsync(viewModel.Id);
+            var log = await _IEntityLogService.GetSavedLogById(id);
             if (log == null) return NotFound();
             return Ok(log.MinhaCDNLog);
         }
 
-        [HttpGet("GetTransformedLogById/{id}")]
-        public async Task<IActionResult> GetTransformedLogById([FromRoute] LogSearchViewModel viewModel)
+        [HttpGet("TransformedLogById/{id}")]
+        public async Task<IActionResult> GetTransformedLogById(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var log = await _IEntityLogService.GetTransformedLogByIdAsync(viewModel.Id);
+            var log = await _IEntityLogService.GetTransformedLogById(id);
             if (log == null) return NotFound();
             return Ok(log);
         }
 
-        [HttpGet("GetOriginalAndTransformedLogById/{id}")]
-        public async Task<IActionResult> GetOriginalAndTransformedLogById([FromRoute] LogSearchViewModel viewModel)
+        [HttpGet("OriginalAndTransformedLogById/{id}")]
+        public async Task<IActionResult> GetOriginalAndTransformedLogById(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var log = await _IEntityLogService.GetTransformedLogByIdAsync(viewModel.Id);
+            var log = await _IEntityLogService.GetOriginalAndTransformedLogById(id);
             if (log == null) return NotFound();
             return Ok(log);
         }

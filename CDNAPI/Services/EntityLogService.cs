@@ -26,17 +26,17 @@ namespace CDNAPI.Services
         }
         
 
-        public async Task<EntityLog> GetSavedLogByIdAsync(Guid id)
+        public async Task<EntityLog> GetSavedLogById(Guid id)
         {
             return await _entityLogRepository.GetByIdAsync(id);
         }
         
-        public async Task<String> GetTransformedLogByIdAsync(Guid id)
+        public async Task<String> GetTransformedLogById(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);
             return log.AgoraLog;
         }
-
+        
         public async Task<String> GetOriginalAndTransformedLogById(Guid id)
         {
             var log = await _entityLogRepository.GetByIdAsync(id);

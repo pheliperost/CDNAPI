@@ -11,8 +11,8 @@ namespace CDNAPI.Interfaces
         Task<String> TransformLogFromRequest(string url, string outputFormat);
         Task<String> TransformLogSavedById(Guid id, string outputFormat);
         Task<EntityLog> AddEntityLog(EntityLog newEntityLog);
-        Task<EntityLog> GetSavedLogByIdAsync(Guid id);
-        Task<String> GetTransformedLogByIdAsync(Guid id);
+        Task<EntityLog> GetSavedLogById(Guid id);
+        Task<String> GetTransformedLogById(Guid id);
         Task<String> GetOriginalAndTransformedLogById(Guid id);
         EntityLog CreateEntityLog(string url, string minhaCDNLog, string agoraFormat);
     }
