@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.IO;
 using CDNAPI.Utils;
+using CDNAPI.Models.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace CDNAPI.Services
 {
@@ -81,6 +83,11 @@ namespace CDNAPI.Services
 
         public async Task<EntityLog> AddEntityLog(EntityLog newEntityLog)
         {
+            if (!ExecuteValidation(new EntityLogValidation(), newEntityLog))
+            {
+                throw new ValidationException("Não foi possível inserir, pois, há dados inválidos.");
+            }
+
             var entityLogAdded = await _entityLogRepository.Save(newEntityLog);
             return entityLogAdded;
         }

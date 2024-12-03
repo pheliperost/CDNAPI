@@ -10,6 +10,7 @@ using CDNAPI.Models;
 using CDNAPI.Repository;
 using CDNAPI.Services;
 using CDNAPI.Utils;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -45,7 +46,10 @@ namespace CDNAPI
             
             services.ResolveDependencies();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddFluentValidation(fv => {
+                fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+            }); ;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

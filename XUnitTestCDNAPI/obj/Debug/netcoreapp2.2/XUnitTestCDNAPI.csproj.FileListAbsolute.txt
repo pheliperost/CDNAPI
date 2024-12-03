@@ -1,3 +1,7 @@
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csprojAssemblyReference.cache
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csproj.CoreCompileInputs.cache
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.AssemblyInfoInputs.cache
+D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.AssemblyInfo.cs
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\xunit.runner.reporters.netcoreapp10.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\xunit.runner.utility.netcoreapp10.dll
@@ -8,10 +12,6 @@ D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAP
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\XUnitTestCDNAPI.pdb
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\CDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\bin\Debug\netcoreapp2.2\CDNAPI.pdb
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csprojAssemblyReference.cache
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csproj.CoreCompileInputs.cache
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.AssemblyInfoInputs.cache
-D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.AssemblyInfo.cs
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.csproj.CopyComplete
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.dll
 D:\Proj Dev\CDNAPI\CDNAPI\XUnitTestCDNAPI\obj\Debug\netcoreapp2.2\XUnitTestCDNAPI.pdb

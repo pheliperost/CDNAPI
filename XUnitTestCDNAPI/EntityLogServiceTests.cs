@@ -6,6 +6,7 @@ using Moq;
 using Moq.AutoMock;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace XUnitTestCDNAPI
             var entityLog = _entityLogFixture.GenerarateInvalidEntityLog();
 
             // Act
-            var result = await _entityLogService.AddEntityLog(entityLog);
+            await Assert.ThrowsAsync<ValidationException>(() => _entityLogService.AddEntityLog(entityLog));
 
             // Assert
             _entityLogFixture.Mocker.GetMock<IEntityLogRepository>().Verify(r => r.Save(entityLog), Times.Never);
