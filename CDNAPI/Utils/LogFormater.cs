@@ -43,7 +43,7 @@ namespace CDNAPI.Utils
         }
 
 
-        public static string CombineLogs(string minhaCDNLog, string agoraLog)
+        public static string AppendLogs(string minhaCDNLog, string agoraLog)
         {
             if (string.IsNullOrEmpty(agoraLog))
             {

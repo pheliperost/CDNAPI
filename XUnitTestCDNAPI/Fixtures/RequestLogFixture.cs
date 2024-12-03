@@ -17,6 +17,7 @@ namespace XUnitTestCDNAPI.Fixtures
     {
         public EntityLogService _entityLogService;
         public AutoMocker Mocker;
+
         public RequestLogViewModel GenerarateAValidRequestLog()
         {
             var requestLogViewFaker = new Faker<RequestLogViewModel>()

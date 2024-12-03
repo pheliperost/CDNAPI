@@ -47,7 +47,7 @@ namespace CDNAPI.Services
 
             if (log == null)
                 throw new InvalidOperationException($"Registro não encontrado.");
-            return LogFormater.CombineLogs(log.MinhaCDNLog, log.AgoraLog);
+            return LogFormater.AppendLogs(log.MinhaCDNLog, log.AgoraLog);
         }
 
         public async Task<string> TransformLogFromRequest(string url, string outputFormat)
