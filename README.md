@@ -78,7 +78,3 @@ Para esse teste considere que só existe o formato de entrada "MINHA CDN", e a s
 - .Net Core 2.1
 - Entity Framework Core
 - SQL Server[1][2]
-
-Citations:
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/43998496/81783bdf-14bb-4ab5-8d4f-c58bda521b03/Teste-Tecnico-TechNation-Backend-API-Unecont.pdf
-[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/43998496/81783bdf-14bb-4ab5-8d4f-c58bda521b03/Teste-Tecnico-TechNation-Backend-API-Unecont.pdf
