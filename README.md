@@ -63,13 +63,13 @@ Os endpoints obrigatórios são:
 
 6. Salvar Logs
 
-Para esse teste considere que só existe o formato de entrada "MINHA CDN", e a saída no formato "Agora"[1][2].
+Para esse teste considere que só existe o formato de entrada "MINHA CDN", e a saída no formato "Agora".
 
 ## Instruções Adicionais
 
-- Coloque toda a sua solução em um projeto único. Os testes unitários podem ficar em um projeto diferente[1][2].
+- Coloque toda a sua solução em um projeto único. Os testes unitários podem ficar em um projeto diferente.
 
-- Um arquivo de log de exemplo que pode ser usado para teste está disponível em: https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt[1][2]
+- Um arquivo de log de exemplo que pode ser usado para teste está disponível em: https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt
 
 - Tenha cuidado, pois o que será analisado neste exercício não é apenas a saída correta do código, mas também as boas práticas de codificação, como POO, SOLID, testes unitários e mocks[1][2].
 
